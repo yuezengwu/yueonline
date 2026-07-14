@@ -1,27 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
-import { SiteHeader } from "@/components/site-header";
+import { Inter, Newsreader } from "next/font/google";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-// 拉丁字体走 next/font(latin 子集,自托管);中文巨标题走 Noto Serif SC(CDN 按需子集)。
-const plexSans = IBM_Plex_Sans({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-plex-sans",
-  display: "swap",
-});
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-plex-mono",
+  variable: "--font-sans",
   display: "swap",
 });
 
-// Next 16:themeColor / colorScheme 须放 viewport 导出,不能放 metadata。
-// #101010 = 实测 --bg(oklch(0.175 0 0))渲染值,移动端浏览器 chrome 跟随暗色。
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  style: ["italic"],
+  weight: ["400"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
 export const viewport: Viewport = {
-  themeColor: "#101010",
+  themeColor: "#1a1a1a",
   colorScheme: "dark",
 };
 
@@ -49,22 +46,19 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN" className={`${plexSans.variable} ${plexMono.variable}`}>
+    <html lang="zh-CN" className={`${inter.variable} ${newsreader.variable}`}>
       <body>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&display=swap"
+        <div
+          className="top-fade"
+          aria-hidden="true"
+          style={{
+            WebkitBackdropFilter: "blur(5px)",
+            backdropFilter: "blur(5px)",
+          }}
         />
         <a className="skip" href="#main">
           跳到主要内容
         </a>
-        <SiteHeader />
         <main id="main">{children}</main>
       </body>
     </html>

@@ -1,53 +1,89 @@
 /**
- * 站点级配置 —— 全站单一数据源。
+ * 站点级配置 —— 运行时数据源。
  *
- * 改文案、加社交链接、换域名,都只动这个文件,不用碰任何组件。
- * 红线提醒:对外一律用「大厂」而非具体公司名;不要透露保密产品的任何信息。
+ * 主页文案请先改 CONTENT.md，再同步到本文件。
+ * 红线:原公司只说「大厂」。个人站例外(YUE 2026-07-13):可写 first-tree.ai 所属关系;
+ * 仍不披露产品细节 / 未公开功能 / 客户。其它渠道不自动适用。
  */
 
-export type NavItem = { href: string; label: string };
 export type SocialLink = { label: string; href: string; handle: string };
+export type NowItem = { title: string; body: string };
+export type Entry = {
+  title: string;
+  summary?: string;
+  href?: string;
+  external?: boolean;
+};
 
 export const site = {
-  /** 站点名称 —— 用于浏览器标题 / OG / metadata(topbar 已改纯导航,不再作左上字标) */
   name: "YUE",
-  /** 中文名(首屏名片主名 + 开屏飞入落点) */
   nameZh: "岳增五",
-  /** 浏览器标签与首页主标题 */
   title: "YUE",
-  /** 一句话副标题(首页大标题下方);TODO(YUE): 内容待补充 */
-  tagline: "一句话定位占位（稍后补充）",
-  /** SEO 描述,建议 150 字以内;TODO(YUE): 内容待补充 */
-  description: "YUE 的个人站点。",
-  /** 线上地址。优先读环境变量,便于预览/生产切换;默认即自有域名 */
+  description:
+    "岳增五（YUE）——AI builder, engineer at first-tree.ai。解决 agents 在生产环境与应用场景中的工程问题，关注 AI 在真实生活中的能力边界。",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://yueonline.com",
-  /** 语言地区 */
   locale: "zh-CN",
 
   author: {
     name: "YUE",
-    // TODO(YUE): 一句话身份,内容待补充
-    bio: "一句话身份占位（稍后补充）",
+    bio: "AI builder, engineer at first-tree.ai.",
   },
 
-  /** 顶部导航(居中三栏;main = 首页) */
-  nav: [
-    { href: "/", label: "main" },
-    { href: "/blog", label: "blog" },
-    { href: "/about", label: "about" },
-  ] as NavItem[],
-
   /**
-   * 社交 / 联系方式。handle 为展示文案,href 为跳转地址。
-   * TODO(YUE): 补全小红书主页链接与邮箱后删除此注释。
+   * 开场单段:lead 用 Newsreader italic;其余普通正文。
+   * first-tree.ai 在页面里链出去。
    */
+  intro: {
+    lead: "AI builder",
+    rest: ", engineer at first-tree.ai 解决agents在生产环境和应用场景中的工程问题，关注AI在真实生活中的能力边界。",
+  },
+
+  /** 多列列表;文案以 CONTENT.md 为准 */
+  building: [
+    {
+      title: "First-Tree",
+      summary: "Run coding agents on shared team context.",
+      href: "https://github.com/agent-team-foundation/first-tree",
+      external: true,
+    },
+  ] as Entry[],
+  writing: [] as Entry[],
+  /** Writing 空列表时的占位文案 */
+  writingPlaceholder: "整理中...",
+
+  now: [
+    {
+      title: "Autonomous agents",
+      body: "授权agents接管固定且重复的任务，构建基础设施让agents离真实工作环境更近，减少重复和低效的信息传递，引导人类成员关注那些需要创造和灵感的核心工作。",
+    },
+    {
+      title: "Token efficiency",
+      body: "使用更多token来扩展人类能力边界的同时，仅仅机械地增加agents运行时间和扩大并发规模并非总能提高效率。通过harness engineering控制agents行为，从每次非预期的运行过程和产出中吸取教训并优化系统。",
+    },
+    {
+      title: "Keep human taste",
+      body: "在高强度依赖AI的工作环境中保持审美。包括但不限于公开文字内容不使用AI生成，全部手写或语音输入；积极参与社交媒体讨论和线下社交活动，同时也欢迎大家找我聊天；定期品鉴学习优秀作品等等。",
+    },
+  ] as NowItem[],
+
+  location: "北京-海淀区-五道口",
+
   social: [
     { label: "X", href: "https://x.com/ZengwuY", handle: "@ZengwuY" },
     {
       label: "小红书",
-      href: "https://www.xiaohongshu.com/user/profile/REPLACE_ME",
+      href: "https://xhslink.com/m/BUKCzQx1r9",
       handle: "YUE | AI",
     },
-    { label: "Email", href: "mailto:hi@yueonline.com", handle: "hi@yueonline.com" },
+    {
+      label: "GitHub",
+      href: "https://github.com/yuezengwu",
+      handle: "yuezengwu",
+    },
+    {
+      label: "Email",
+      href: "mailto:yzengwu@gmail.com",
+      handle: "yzengwu@gmail.com",
+    },
   ] as SocialLink[],
 };

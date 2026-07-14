@@ -1,8 +1,9 @@
 # yueonline.com — 个人站
 
-YUE 的个人 landing page + 写作站。骨架已搭好,**首页/关于页文案仍是占位符**(见 `lib/site.ts` 的 TODO)。
+YUE 的个人 landing page + 写作站。首页按 [paco.me](https://paco.me) 文档感落地(见 `DESIGN.md`)。
 
-> 视觉与交互原则见 `DESIGN.md`(总原则:极简);产品定位见 `PRODUCT.md`。
+> **主页文案改 [`CONTENT.md`](CONTENT.md)**；落地实现在 `lib/site.ts`。
+> 原则:极简、无顶栏 chrome、16px 级标题、Building/Writing 多列、Connect 单行图标链。
 
 ## 技术栈
 
@@ -14,16 +15,15 @@ Next.js 16(App Router)+ TypeScript + Tailwind CSS v4;文章为 Markdown(gray-mat
 apps/website/
 ├── app/
 │   ├── layout.tsx          站点外壳(字体、metadata、topbar)
-│   ├── page.tsx            首页(名片左栏 + 介绍/最新写作右栏)
+│   ├── page.tsx            首页(paco 结构:名字 → intro → 多列 → Now → Connect)
 │   ├── about/page.tsx      关于
 │   ├── blog/page.tsx       文章列表
 │   ├── blog/[slug]/page.tsx 文章详情
 │   ├── sitemap.ts / robots.ts
 │   └── globals.css         全部样式(token 见 :root)
-├── components/site-header.tsx  顶栏(纯导航居中)
 ├── content/blog/           ⭐ 文章 Markdown(文件名 = 网址)
 ├── lib/
-│   ├── site.ts             ⭐ 全站单一数据源(名字/文案/社交/域名)
+│   ├── site.ts             运行时数据(由 CONTENT.md 同步)
 │   └── blog.ts             博客读取(仅服务端)
 └── public/                 静态资源(头像、favicon、OG 图)
 ```
@@ -38,12 +38,12 @@ pnpm build        # 部署前自检
 
 ## 怎么补内容(给 YUE)
 
-- 名字 / 文案 / 社交链接 / 邮箱 → `lib/site.ts`
+- **主页文案** → [`CONTENT.md`](CONTENT.md)（改完后同步到 `lib/site.ts`）
 - 关于页 → `app/about/page.tsx`
 - 发文章 → `content/blog/` 新建 `.md`,frontmatter:`title / date / summary / tags / draft`(`draft: true` 只在本地可见)
 - favicon / OG 图 → `public/`
 
-> 红线:对外一律「大厂」,不透露具体产品/公司名。
+> 红线:原公司说「大厂」;个人站可写 first-tree.ai 所属关系(见 voice-and-redlines)。
 
 ## 部署
 
@@ -55,7 +55,8 @@ vercel --prod     # 或推 GitHub 后在 Vercel Import(Root Directory = apps/web
 
 ## 待补充清单
 
-- [ ] `lib/site.ts`:tagline / bio / 小红书主页链接 / 邮箱
-- [ ] `app/about/page.tsx` 与首页 `page.tsx`:替换占位文案
+- [x] 首页单栏 + intro / Now / Connect(含地址)
+- [ ] `app/about/page.tsx`:完整关于正文
 - [ ] `content/blog/`:第一篇文章(删掉 `hello-world.md`)
 - [ ] `public/`:替换 favicon、补 OG 分享图
+- [ ] Building / Writing:有条目后先写 `CONTENT.md`，再同步 `lib/site.ts`

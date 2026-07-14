@@ -1,70 +1,88 @@
 ---
 status: active
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-13
 source_of_truth_for: visual-and-interaction-rules
 ---
 
 # YUE 个人站 · 设计原则(DESIGN.md)
 
 > 改样式 / 加组件前先读这份。`globals.css` 是实现,本文件是依据;冲突以本文件为准。
+> 首页文案以 `CONTENT.md` 为准（YUE 随时改）；落地到 `lib/site.ts` 后页面才会更新。
+> **视觉参考: [paco.me](https://paco.me)**(2026-07-13 实测度量落地)。
 
-## 〇、总原则:极简(2026-07-02 定调,参考 paco.me)
+## 〇、总原则
 
-**先内容,后炫技。** 页面安静、克制、几乎无动效;身份靠文字与结构承载,不靠视觉表演。
-炫技类实现(开屏打字动画、自绘光标等)已整体移出站点,归档在工作空间 [`archive/website/experiments/flourish/`](../../archive/website/experiments/flourish/),后续想做再取回,**不要在此之前重新引入**。
+**文档感、极简、无 chrome。** 身份靠排版与留白,不靠顶栏、图标列表、巨型标题或 IDE cosplay。
+炫技实现已归档至 [`archive/website/experiments/flourish/`](../../archive/website/experiments/flourish/),不要重新引入。
 
-## 一、配色:暗色纯黑白灰,无彩色
+## 一、配色(对齐 paco token)
 
-- 全部 OKLCH、**chroma = 0**,只靠明度拉层级;**禁止引入任何彩色强调色**。
-- 「强调」= 最高对比(白):当前导航项、链接 hover、日期、选区,全部白 / 灰。
-- token 见 `globals.css :root`:背景三级(`--bg/--bg-raise/--bg-card`)、描边两级(`--line/--line-soft`)、墨色四级(`--ink`→`--ink-4`)、强调两级(`--hi/--hi-dim`)。
-- `--bg` 渲染为 `#101010`,`theme-color` 同值。
+| Token | 值 | 用途 |
+|---|---|---|
+| `--bg` | `#1a1a1a` | 页面底 |
+| `--fg` | `#f2f2f2` | 最亮(em / 强调) |
+| `--text` | `#e5e5e5` | 正文、名字、链接字色 |
+| `--dim` | `#a0a0a0` | 小节标题、说明文 |
+| `--muted` | `#707070` | 外链箭头等次要图标 |
+| `--underline` | `#505050` | 链接默认下划线 |
 
-## 二、字体:三套分工
+禁止彩色强调色。`theme-color` = `#1a1a1a`。
+
+## 二、字体(对齐 paco 分工)
 
 | 字体 | 用途 | 加载 |
 |---|---|---|
-| IBM Plex Mono | UI / 导航 / 标签 / 代码 / 日期 | next/font 自托管 |
-| IBM Plex Sans | 正文 | next/font 自托管 |
-| Noto Serif SC 900 | 中文标题(`.lead` / `.ptitle` / 文章标题 / `.aside__name`) | Google Fonts CDN(CJK 子集) |
+| **Inter** | 名字、正文、区块标题、链接 | next/font |
+| **Newsreader** italic | 开场首句 `<em>`(仅拉丁) | next/font |
+| 系统中文栈 | CJK 正文 fallback(`PingFang SC` 等) | 系统 |
 
-**标题字重硬性 = 900,禁止用 Sans 充当标题。**
+- 首页 **H1 名字 = 18px / weight 500**(`.heading.name`);非巨标题,无额外字距。
+- Building / Writing 列标题:**14px / weight 400 / `--dim`**。
+- Now / Connect 标题:**16px / 500 / `--text`**。
+- **禁止** Noto Serif SC 900 巨标题、IBM Plex Mono 主导航气质。
 
-## 三、版式
+## 三、版式(对齐 paco 结构)
 
-- 首页:`312px 名片左栏 + 流式右栏`,无外框卡;列分隔靠 `.aside` 的 1px 竖线。左栏内容与 `.wrap` 共用 28px 左母线,垂直间距走 4 的倍数。
-- 单列页(blog / about / post):760px 居中。
-- IDE 元素只用**语义真实**的:面包屑对应真实路由、写作列表是真实的 date · title · #tags、ISO 日期。**禁止伪造 chrome**(假 tab、假行号、假命令串、红绿灯圆点等)。
+```
+[居中主栏 640px, 上下 padding ≈ 128px]
 
-## 四、动效:默认没有
+名字 (h1)
+intro 段落(首句可 em)
+——
+Building | Writing     ← 两栏均分原三栏总宽(~640px),列距 32px;可空
+——
+Now                    ← 全宽;每段「斜体引导 + 正文」同行(对齐 paco),字色均为 `--text`
+Connect                ← 单行:图标 · Email · Location(无动词、无冒号)
+```
 
-- 现存动效仅两类:hover / focus 过渡(120–240ms)、topbar 滚动淡入。新增动效默认拒绝。
-- 只动 `transform` / `opacity`;禁止 `transition: all`;必须尊重 `prefers-reduced-motion`。
+- **无全局 sticky 顶栏。** 子页用一行文字返回链即可。
+- 主栏在大屏水平居中;小屏 Building/Writing 改为纵向堆叠。
+- 列表项模式(有条目时):亮色标题(+ 外链 ↗) + 下方 dim 一行说明。空列表只保留列标题。
 
-## 五、合规基线(Vercel web-interface-guidelines)
+## 四、链接与动效
 
-- 无障碍:icon 按钮 `aria-label`、图片 `alt`、装饰元素 `aria-hidden`、`skip` link、`scroll-padding-top: 72px`。
-- Focus:全局 `:focus-visible` 轮廓,禁止裸 `outline:none`。
-- 导航用真实 `<Link>` / `<a>`(支持 ⌘/中键新开标签);仅纯命令用 `<button>`。
-- 排版:标题 `text-wrap: balance`,正文 `text-wrap: pretty`;文本容器 `overflow-wrap: anywhere`,flex 子项 `min-width: 0`。
-- 暗色:`color-scheme: dark` + `themeColor: "#101010"`。
-- i18n:标识符加 `translate="no"`;日期用 `<time dateTime={iso}>`。
-- 触屏:`touch-action: manipulation` + 透明 tap highlight;贴边内边距 `max(28px, env(safe-area-inset-*))`。
+- **顶栏半透明遮罩(对齐 paco `.blur`,类名用 `.top-fade` 避免撞 Tailwind `.blur`)**:`position: sticky; top: 0`;高 `min(96px, --page-top)`;`backdrop-filter: blur(5px)` + `opacity: 0.95`;`mask-image` 自上而下 25% 实→透明;`::after` 叠 `linear-gradient(--bg → transparent)`;`margin-bottom: -height` 不占流。`pointer-events: none`。
+- 行内链接:字色 `--text`,下划线 `--underline`(`#505050`);hover 下划线改为 `--dim`(`#a0a0a0`),**不是**最亮白。`text-underline-offset: 2.5px`;过渡约 240ms。
+- 选区:`background: #ffffff14`,文字保持浅色(不对调黑白)。
+- `overflow-y: scroll` 常驻滚动条; `scroll-padding-top: 96px` 配合顶遮罩。
+- 条目(有内容时) `min-height: 84px`;外链旁 ↗ 用 `--muted`。
+- 邮箱链接可用 `.email` + `::before`/`data-email` 显示(对齐 paco 反爬)。
+- **入场动画(对齐 paco.me,唯一允许的页面动效)**:`[data-animate]` + `@keyframes enter`(opacity 0→1, `translateY(10px)`→0),时长 0.6s ease,`animation-fill-mode: both`;延迟 `calc(var(--stagger) * 0.12s)`。仅在 `prefers-reduced-motion: no-preference` 下启用。
+- 其它动效默认拒绝;只动 `transform` / `opacity`。
 
-## 六、有意取舍(审查时不当违规)
+## 五、合规基线
 
-- 日期显原始 ISO `YYYY-MM-DD`,不做本地化展示(已包 `<time>`)。
-- 重度 Mono 字体用于 UI —— 风格选择。
+- skip link、`:focus-visible`、真实 `<a>`/`<Link>`、`overflow-wrap`、safe-area 内边距。
+- `first-tree.ai` 可写(YUE 2026-07-13 个人站例外);其它红线见 `docs/foundation/voice-and-redlines.md`。
 
-## 七、单一数据源
+## 六、单一数据源
 
-- 文案 / 社交 / 域名:`lib/site.ts`,只改这一个文件。
-- 文章:`content/blog/*.md`(frontmatter:`title / date / summary / tags / draft`);`lib/blog.ts` 仅服务端(用到 `node:fs`)。
+- 文案 / 社交 / 地址:先改 `CONTENT.md`，再同步 `lib/site.ts`
+- 文章:`content/blog/*.md` + `lib/blog.ts`(仅服务端)
 
-## 八、改动前自检
+## 七、改动前自检
 
-1. 是否符合极简总原则?(默认答案是「不加」)
-2. 没引入彩色?标题用 Noto Serif SC 900?
-3. 新交互元素:键盘可达 + `:focus-visible` + `aria-label`?
-4. 新文本容器:溢出兜底?
-5. 改完 `pnpm build` 与 `npx tsc --noEmit` 双绿?
+1. 是否仍像「文档」而不是产品落地页/IDE?
+2. 名字是否为 18px / 500(无额外字距),分区标题是否仍为 16px?
+3. Connect 是否为单行「图标 · Email · Location」?
+4. `pnpm build` + `npx tsc --noEmit` 双绿?

@@ -2,36 +2,33 @@
 @plugin "@tailwindcss/typography";
 
 /* ==============================================================
-   YUE · workbench —— 纯黑白灰暗色(无彩色)
-   配色 OKLCH 自建,chroma = 0 中性灰;强调只靠明度(黑白比例)拉开,无信号色。
-   字体:IBM Plex Sans(正文/UI)+ IBM Plex Mono(代码/标签)
-   + Noto Serif SC 900(中文巨标题,CDN 按需子集)+ 系统中文栈。
+   YUE · paco-faithful document site
+   度量来自 2026-07-13 对 https://paco.me 的实测。
    ============================================================== */
 :root {
-  --bg: oklch(0.175 0 0);
-  --bg-raise: oklch(0.212 0 0);
-  --bg-card: oklch(0.238 0 0);
-  --line: oklch(0.32 0 0);
-  --line-soft: oklch(0.272 0 0);
-  --ink: oklch(0.95 0 0);
-  --ink-2: oklch(0.76 0 0);
-  --ink-3: oklch(0.56 0 0);
-  --ink-4: oklch(0.44 0 0);
-  /* 强调:最亮白 / 中灰,顶替原琥珀;纯明度,无彩色 */
-  --hi: oklch(0.98 0 0);
-  --hi-dim: oklch(0.70 0 0);
-  --focus: oklch(0.86 0 0);
+  --bg: #1a1a1a;
+  --fg: #f2f2f2;
+  --text: #e5e5e5;
+  --dim: #a0a0a0;
+  --muted: #707070;
+  --underline: #505050;
+  --focus: #c8c8c8;
+  --transparent: #0000;
+  --mask-visible: #000;
+  --mask-hidden: transparent;
+  /* 与 .shell 顶 padding 对齐;blur 高度取 min(96px, 此值) */
+  --page-top: 128px;
 
-  --mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
-  --sans: var(--font-plex-sans), "PingFang SC", "Microsoft YaHei", system-ui,
-    sans-serif;
-  --serif: "Noto Serif SC", "Songti SC", "STSong", serif;
+  --sans: var(--font-sans), "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --serif: var(--font-serif), "Songti SC", "STSong", serif;
 
-  --maxw: 1160px;
+  --content: 640px;
+  --col: 192px;
+  --col-gap: 32px;
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --dur-1: 120ms;
-  --dur-2: 240ms;
-  --dur-3: 420ms;
+  --dur: 120ms;
+  /* 链接下划线过渡(paco 实测约 0.24s) */
+  --dur-link: 240ms;
 }
 
 * {
@@ -41,29 +38,32 @@ html {
   -webkit-text-size-adjust: 100%;
   color-scheme: dark;
   background: var(--bg);
-  /* sticky 顶栏 58px:skip-link / 锚点跳转留余量,避免被吸顶栏遮挡 */
-  scroll-padding-top: 72px;
+  /* 顶遮罩高度,锚点/skip 不被挡住 */
+  scroll-padding-top: 96px;
 }
 body {
   margin: 0;
   background: var(--bg);
-  color: var(--ink);
+  color: var(--text);
   font-family: var(--sans);
   font-size: 16px;
-  line-height: 1.7;
+  line-height: 28px;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  /* 对齐 paco: 常驻纵向滚动条,避免出现/消失时布局抖动 */
+  overflow-y: scroll;
 }
 ::selection {
-  background: var(--hi);
-  color: var(--bg);
+  /* 对齐 paco --selection:#ffffff14,文字保持浅色,不反色 */
+  background: #ffffff14;
+  color: var(--fg);
+  text-shadow: none;
 }
 a {
   color: inherit;
   text-decoration: none;
 }
-/* 触屏:消除默认点击高亮闪烁与 300ms 点击延迟 */
 a,
 button,
 input,
@@ -78,391 +78,348 @@ summary {
   left: 14px;
   top: -44px;
   z-index: 200;
-  background: var(--hi);
+  background: var(--fg);
   color: var(--bg);
-  font-family: var(--mono);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   padding: 8px 14px;
   border-radius: 6px;
-  transition: top var(--dur-1) var(--ease);
+  transition: top var(--dur) var(--ease);
 }
 .skip:focus {
   top: 14px;
+}
+.skip:focus:not(:focus-visible) {
   outline: none;
 }
 :focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
-/* ── topbar ──────────────────────────────────── */
-.bar {
+/* ── 顶栏半透明渐变遮罩(对齐 paco.me .blur) ─────
+   类名不用 .blur —— 会撞 Tailwind 的 filter:blur() utility。
+   sticky 吸顶;backdrop blur + mask 向下淡出;
+   ::after 叠一层底色→透明渐变;负 margin 不占文档流高度。 */
+.top-fade {
+  --h: min(96px, var(--page-top));
   position: sticky;
   top: 0;
-  z-index: 60;
+  z-index: 1;
+  width: 100%;
+  height: var(--h);
+  margin-bottom: calc(-1 * var(--h));
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.95;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    var(--mask-visible) 25%,
+    var(--mask-hidden)
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    var(--mask-visible) 25%,
+    var(--mask-hidden)
+  );
 }
-/* 背景/模糊/底边收进伪层,滚动时靠 opacity 淡入(只动 opacity,合成友好) */
-.bar::before {
+.top-fade::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: oklch(0.175 0 0 / 0.82);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line-soft);
-  opacity: 0;
-  transition: opacity var(--dur-2) var(--ease);
-}
-.bar[data-stuck="true"]::before {
-  opacity: 1;
-}
-.bar__in {
-  position: relative;
-  max-width: var(--maxw);
-  margin: 0 auto;
-  height: 58px;
-  padding: 0 max(28px, env(safe-area-inset-right)) 0 max(28px, env(safe-area-inset-left));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--mono);
-  font-size: 14px;
-}
-.nav a,
-.nav button {
-  color: var(--ink-2);
-  background: none;
-  border: 0;
-  font: inherit;
-  padding: 8px 12px;
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  cursor: pointer;
-  transition: color var(--dur-1) var(--ease);
-}
-.nav a:hover,
-.nav button:hover {
-  color: var(--ink);
-}
-/* 当前页:提亮 + 加重 + 一条 1px 静态左侧标
-   (与面包屑 .crumb 当前段同源 --hi-dim,path/gutter 语义,不是底部下划线 → 不读成假 tab) */
-.nav a[aria-current="page"] {
-  color: var(--hi);
-  font-weight: 500;
-  position: relative;
-}
-.nav a[aria-current="page"]::before {
-  content: "";
-  position: absolute;
-  left: 4px;
-  top: 50%;
-  width: 1px;
-  height: 12px;
-  transform: translateY(-50%);
-  background: var(--hi-dim);
+  background: linear-gradient(to bottom, var(--bg), var(--transparent));
 }
 
-/* ── layout:左窄右宽不对称 ───────────────────── */
-.wrap {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 0 max(28px, env(safe-area-inset-right)) 88px max(28px, env(safe-area-inset-left));
-}
-/* 去盒(2026-06-25):删掉外层 bg-raise 圆角卡,只留双栏网格;
-   列分隔靠 .aside 的 border-right(结构线,非卡片壳)。 */
+/* ── 主栏 ────────────────────────────────────── */
 .shell {
-  display: grid;
-  grid-template-columns: 312px minmax(0, 1fr);
-  margin-top: 30px;
+  width: min(100%, var(--content));
+  margin: 0 auto;
+  padding: 128px max(24px, env(safe-area-inset-left)) 128px
+    max(24px, env(safe-area-inset-right));
 }
 
-/* ── 左栏:名片 ──────────────────────────────── */
-/* 左栏与 topbar 共用 28px 左母线:padding-left 归 0,内容左缘 = .wrap 的 28px
-   = YUE 字标左缘;padding-top 30 与右栏 .main 顶对齐;右 24 为内容到列分隔线的水槽。 */
-.aside {
-  border-right: 1px solid var(--line-soft);
-  padding: 30px 24px 0 0;
-  background: var(--bg);
+/* 名字 / Now / Connect 标题:与正文同级的 16/500 */
+.heading {
+  margin: 0 0 28px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 28px;
+  color: var(--text);
+  letter-spacing: normal;
 }
-.avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  overflow: hidden;
-  margin-bottom: 16px;
-  background: var(--bg-card);
+
+/* 姓名: 18px / 500,无额外字距 */
+.heading.name {
+  font-size: 18px;
+  line-height: 28px;
 }
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+
+.prose-block p {
+  margin: 0 0 28px;
+  color: var(--text);
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
 }
-.aside__name {
+.prose-block p:last-child {
+  margin-bottom: 0;
+}
+
+/* paco 式行内链接:同色 + mono8 下划线;hover → mono11 */
+.inline-link {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--underline);
+  text-underline-offset: 2.5px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color var(--dur-link) ease;
+}
+.inline-link:hover {
+  /* paco hover: --mono11,不是最亮白 */
+  text-decoration-color: var(--dim);
+}
+
+/* 邮箱用 ::before 输出,减轻简单爬虫(对齐 paco .email) */
+a.email::before {
+  content: attr(data-email);
+}
+
+em.lead {
   font-family: var(--serif);
-  font-weight: 900;
-  font-size: 27px;
-  letter-spacing: -0.01em;
-  margin: 0 0 8px;
-}
-.aside__title {
-  font-size: 13.5px;
-  line-height: 1.65;
-  color: var(--ink-2);
-  margin: 0 0 24px;
-}
-.aside__h {
-  font-family: var(--mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.13em;
-  /* 小节标签:--ink-4(.44) 在暗底对比仅 2.4:1 不达标 → oklch(0.6) ≈ 4.8:1 过 AA,仍克制 */
-  color: oklch(0.6 0 0);
-  margin: 0 0 12px;
-}
-.links {
-  list-style: none;
-  margin: 0 0 4px;
-  padding: 0;
-}
-.links li {
-  margin: 0 0 4px;
-}
-.links a {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  font-family: var(--mono);
-  font-size: 13.5px;
-  color: var(--ink-2);
-  padding: 8px 8px;
-  margin: 0 -8px;
-  border-radius: 7px;
-  transition: color var(--dur-1) var(--ease), background var(--dur-1) var(--ease);
-}
-.links a:hover {
-  color: var(--ink);
-  background: var(--bg-card);
-}
-.links a:hover .ar {
-  color: var(--hi);
-  transform: translateX(2px);
-}
-.links .ic {
-  width: 15px;
-  height: 15px;
-  color: var(--ink-4);
-  display: inline-flex;
-}
-.links a:hover .ic {
-  color: var(--ink-2);
-}
-.links .lbl {
-  flex: 1;
-}
-.links .ar {
-  color: var(--ink-4);
-  transition: transform var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 17px;
+  color: var(--fg);
+  line-height: normal;
 }
 
-/* ── 中栏:介绍 ───────────────────────────────── */
-.main {
-  padding: 30px 36px 34px;
+/* ── Building | Writing 多列 ─────────────────── */
+/* 总宽对齐 paco 三栏轨道;两栏均分,只留一档列距 */
+.cols {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--col-gap);
+  width: calc(3 * var(--col) + 2 * var(--col-gap));
+  max-width: 100%;
+  margin: 64px 0 28px;
+}
+.col {
+  flex: 1 1 0;
   min-width: 0;
 }
-.lead {
-  font-family: var(--serif);
-  font-weight: 900;
-  font-size: clamp(26px, 3.4vw, 38px);
-  line-height: 1.32;
-  letter-spacing: -0.01em;
-  margin: 4px 0 24px;
-  color: var(--ink);
-  text-wrap: balance;
+.col__title {
+  margin: 0 0 24px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--dim);
 }
-.lead .accent {
-  color: var(--hi);
-}
-.prose-intro p {
+.col__placeholder {
+  margin: 0;
+  color: var(--muted);
   font-size: 16px;
-  line-height: 1.78;
-  color: var(--ink-2);
-  margin: 0 0 18px;
-  max-width: 60ch;
-  text-wrap: pretty;
+  line-height: 28px;
 }
-.prose-intro p strong {
-  color: var(--ink);
-  font-weight: 500;
+.entry {
+  margin: 0 0 24px;
+  min-height: 84px; /* 对齐 paco 条目占位高度 */
 }
-
-/* ── git-log 式写作列表(融合 b) ──────────────── */
-.gitlog {
-  margin-top: 30px;
+.entry:last-child {
+  margin-bottom: 0;
 }
-.gitlog__head {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--ink-4);
+.entry__head {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--line-soft);
+  gap: 6px;
 }
-.gitlog__head .grow {
-  flex: 1;
+.entry__title {
+  color: #ededed;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
 }
-.gitlog__head a {
-  color: var(--ink-3);
+a.entry__title {
+  text-decoration: underline;
+  text-decoration-color: var(--underline);
+  text-underline-offset: 2.5px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color var(--dur-link) ease;
 }
-.gitlog__head a:hover {
-  color: var(--hi);
+a.entry__title:hover {
+  text-decoration-color: var(--dim);
 }
-.gitlog__list {
+/* 箭头在链接外(对齐 paco),无下划线 */
+.entry__head .ext {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+}
+.entry__summary {
+  margin: 4px 0 0;
+  color: var(--dim);
+  font-size: 16px;
+  line-height: 28px;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+
+.section {
+  margin-top: 64px;
+}
+
+.connect {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 0.85em;
+  row-gap: 10px;
+  margin: 0;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 28px;
+  overflow-wrap: anywhere;
+}
+.connect__icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2em;
+  margin-right: 0.15em;
+}
+.connect__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125em;
+  height: 1.125em;
+  color: var(--text);
+  transition: color var(--dur-link) ease;
+}
+.connect__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* 小红书字标笔画细、视觉偏小:加宽槽位并光学放大 */
+.connect__icon--wordmark {
+  width: 1.55em;
+  height: 1.15em;
+}
+.connect__icon--wordmark svg {
+  transform: scale(1.28);
+  transform-origin: center;
+}
+.connect__icon:hover {
+  color: var(--fg);
+}
+.connect__sep {
+  color: var(--muted);
+  font-weight: 400;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ── 子页 ────────────────────────────────────── */
+.back {
+  display: inline-block;
+  margin-bottom: 28px;
+  color: var(--dim);
+  font-size: 14px;
+  line-height: 20px;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2.5px;
+  transition: color var(--dur-link) ease, text-decoration-color var(--dur-link) ease;
+}
+.back:hover {
+  color: var(--text);
+  text-decoration-color: var(--dim);
+}
+.page-title {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 28px;
+  color: var(--text);
+}
+.page-meta {
+  margin: 0 0 28px;
+  color: var(--dim);
+  font-size: 14px;
+  line-height: 20px;
+}
+.post-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.gitlog__list li {
-  border-bottom: 1px solid var(--line-soft);
+.post-list li {
+  margin: 0 0 20px;
 }
-.gitlog__row {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 14px;
-  align-items: baseline;
-  padding: 14px 8px;
-  margin: 0 -8px;
-  border-radius: 7px;
-  transition: background var(--dur-1) var(--ease);
+.post-list a {
+  color: #ededed;
+  text-decoration: underline;
+  text-decoration-color: var(--underline);
+  text-underline-offset: 2.5px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color var(--dur-link) ease;
 }
-.gitlog__row:hover {
-  background: var(--bg-card);
+.post-list a:hover {
+  text-decoration-color: var(--dim);
 }
-.gitlog__date {
-  font-family: var(--mono);
-  font-size: 12.5px;
-  color: var(--hi-dim);
-  white-space: nowrap;
+.post-list .sum {
+  display: block;
+  margin-top: 4px;
+  color: var(--dim);
+  font-size: 16px;
+  line-height: 28px;
 }
-.gitlog__msg {
-  color: var(--ink);
-  font-size: 15px;
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-.gitlog__row:hover .gitlog__msg {
-  color: var(--hi);
-}
-.gitlog__sum {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  color: var(--ink-3);
-  font-size: 13px;
-  line-height: 1.6;
-  margin-top: 3px;
-  overflow-wrap: anywhere;
-}
-.gitlog__tags {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--ink-4);
-  white-space: nowrap;
-}
-.gitlog__tags .t {
-  color: var(--ink-3);
+.post-list time {
+  color: var(--dim);
+  font-size: 14px;
 }
 
-/* ── 单列页(blog / about / post) ─────────────── */
-.page {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 8px 4px 0;
-}
-.crumb {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--ink-4);
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 20px;
-}
-.crumb a {
-  color: var(--ink-3);
-}
-.crumb a:hover {
-  color: var(--hi);
-}
-.ptitle {
-  font-family: var(--serif);
-  font-weight: 900;
-  font-size: clamp(28px, 4vw, 42px);
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-  margin: 0 0 10px;
-  text-wrap: balance;
-}
-.pmeta {
-  font-family: var(--mono);
-  font-size: 12.5px;
-  color: var(--ink-4);
-  margin: 0 0 28px;
-}
-.prule {
-  border: 0;
-  border-top: 1px solid var(--line-soft);
-  margin: 0 0 30px;
-}
-
-/* ── 文章正文 prose(暖石墨主题) ─────────────── */
+/* 文章正文 */
 .prose {
-  --tw-prose-body: var(--ink-2);
-  --tw-prose-headings: var(--ink);
-  --tw-prose-links: var(--hi);
-  --tw-prose-bold: var(--ink);
-  --tw-prose-quotes: var(--ink-3);
-  --tw-prose-quote-borders: var(--hi);
-  --tw-prose-hr: var(--line-soft);
-  --tw-prose-counters: var(--ink-4);
-  --tw-prose-bullets: var(--line);
-  --tw-prose-code: var(--ink);
-  --tw-prose-pre-bg: var(--bg);
-  --tw-prose-pre-code: var(--ink-2);
+  --tw-prose-body: var(--text);
+  --tw-prose-headings: var(--text);
+  --tw-prose-links: var(--text);
+  --tw-prose-bold: var(--fg);
+  --tw-prose-quotes: var(--dim);
+  --tw-prose-quote-borders: var(--muted);
+  --tw-prose-hr: #2e2e2e;
+  --tw-prose-counters: var(--dim);
+  --tw-prose-bullets: var(--muted);
+  --tw-prose-code: var(--fg);
+  --tw-prose-pre-bg: #111;
+  --tw-prose-pre-code: var(--text);
   font-family: var(--sans);
+  font-size: 16px;
+  line-height: 28px;
 }
 .prose :is(h1, h2, h3) {
-  font-family: var(--serif);
-  font-weight: 900;
-  letter-spacing: -0.01em;
+  font-weight: 500;
+  letter-spacing: normal;
   text-wrap: balance;
 }
 .prose p {
   text-wrap: pretty;
 }
 .prose a {
-  text-underline-offset: 3px;
+  text-decoration: underline;
+  text-decoration-color: var(--underline);
+  text-underline-offset: 2.5px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color var(--dur-link) ease;
+}
+.prose a:hover {
+  text-decoration-color: var(--dim);
 }
 .prose :not(pre) > code {
-  font-family: var(--mono);
-  font-size: 0.88em;
-  background: var(--bg-card);
-  border: 1px solid var(--line-soft);
+  font-size: 0.9em;
+  background: #222;
   border-radius: 4px;
   padding: 0.1em 0.36em;
 }
@@ -471,18 +428,13 @@ summary {
   content: "";
 }
 .prose pre {
-  background: var(--bg);
-  border: 1px solid var(--line-soft);
-  border-radius: 10px;
+  background: #111;
+  border: 1px solid #2e2e2e;
+  border-radius: 8px;
 }
-.prose pre code {
-  font-family: var(--mono);
-  font-size: 0.86em;
-}
-/* 克制的代码高亮:纯灰阶明度,不堆五色 */
 .hljs-comment,
 .hljs-quote {
-  color: var(--ink-4);
+  color: var(--muted);
   font-style: italic;
 }
 .hljs-keyword,
@@ -490,49 +442,69 @@ summary {
 .hljs-literal,
 .hljs-section,
 .hljs-name {
-  color: var(--hi-dim);
+  color: var(--dim);
 }
 .hljs-string,
 .hljs-attr,
 .hljs-addition,
 .hljs-number,
-.hljs-built_in {
-  color: var(--ink);
-}
+.hljs-built_in,
 .hljs-title,
 .hljs-title.function_,
 .hljs-type,
 .hljs-attribute {
-  color: var(--ink);
+  color: var(--fg);
 }
 .hljs-meta {
-  color: var(--ink-4);
+  color: var(--muted);
 }
 
-/* ── 响应式 ──────────────────────────────────── */
-@media (max-width: 820px) {
+@media (max-width: 720px) {
   .shell {
-    grid-template-columns: 1fr;
+    padding-top: 64px;
+    padding-bottom: 80px;
   }
-  .aside {
-    border-right: 0;
-    border-bottom: 1px solid var(--line-soft);
+  .cols {
+    flex-direction: column;
+    width: 100%;
+    gap: 40px 0;
   }
-  .main {
-    padding: 26px 22px 30px;
-  }
-  /* 窄屏:隐藏 git-log 标签列,避免多标签挤压标题列 */
-  .gitlog__tags {
-    display: none;
+  .col {
+    flex: none;
+    width: 100%;
   }
 }
 
-/* ── 减少动效 ────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .bar::before {
-    transition: none;
-  }
   * {
     scroll-behavior: auto !important;
+  }
+}
+
+/* ── 入场(对齐 paco.me: data-animate + stagger) ─ */
+[data-animate] {
+  --stagger: 0;
+  --delay: 0.12s;
+  --start: 0s;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-animate] {
+    animation-name: enter;
+    animation-duration: 0.6s;
+    animation-timing-function: ease;
+    animation-fill-mode: both;
+    animation-delay: calc(var(--stagger) * var(--delay) + var(--start));
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }

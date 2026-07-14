@@ -1,148 +1,106 @@
 ---
-status: draft
+status: editable
 owner: YUE
-implementation_source: lib/site.ts
-last_reviewed: 2026-07-10
+sync_to: lib/site.ts
+last_reviewed: 2026-07-14
 ---
 
-# yueonline.com · 首页内容草稿
+# yueonline.com · 首页文案
 
-> 本文件是待确认的内容与版式提案，不覆盖 `DESIGN.md` 的当前双栏决定。若 YUE 确认单栏方案，应先更新 `DESIGN.md` 再改实现。
->
-> 参考 [paco.me](https://paco.me)：**单栏、自上而下**，没有左栏名片。
-> 你改这个文件；确认后我负责落地（含必要时把首页从双栏改成单栏）。
->
-> 红线：写「大厂」不写具体公司名；不提产品名 / 公司名；少比喻、不鸡汤。
-> 语气：平实、进行时、像跟同行说话。
+> **改主页文案改这里。** 改完后同步到 `lib/site.ts` 才会上线页面。  
+> 视觉 / 排版见 `DESIGN.md`，不要在本文件写样式。
 
----
-
-## 页面骨架（对照 paco）
+## 骨架
 
 ```
 名字
-开场（正在做什么 + 过去一笔）
-Building
-Writing
-Now          ← 可选
-Connect
+开场 (斜体 lead + 正文)
+Building | Writing
+Now
+Connect  ← 图标 · email · location
 ```
-
-没有单独的「bio / 名片」区块。身份写进开场第一段即可。
 
 ---
 
-## 1. 名字
-
-站上已有：`YUE` / `岳增五`。一般不用改。若首页主标题要用其中一个，在这里注明：
+## 名字
 
 ```
-name:
 岳增五
 ```
 
----
+## 开场
 
-## 2. 开场
-
-paco：一两段说清「现在在做什么」，再补一句「过去做过什么」。
+- **lead**（Newsreader 斜体）:
 
 ```
-intro:
-正在用 AI 造产品。（改成你的话，1–2 句）
-
-AI builder, software engineer.
+AI builder
 ```
 
----
-
-## 3. Building
-
-当前工作重心。**不写产品名**，只写角色与方向。
+- **rest**（普通正文；其中 `first-tree.ai` 在页面里做成链接）:
 
 ```
-building:
-标题: Building
-正文:
-在早期团队里负责技术与产品。关注 AI 如何真正落进产品，而不是停留在 demo。
+, engineer at first-tree.ai 解决agents在生产环境和应用场景中的工程问题，关注AI在真实生活中的能力边界。
 ```
 
----
-
-## 4. Writing
-
-列表由 blog 自动生成；这里只写导语（paco 在 Writing 下有一句说明）。
+## Building
 
 ```
-writing:
-标题: Writing
-导语:
-不定期写下创业判断、AI 工程，以及做产品时踩过的坑。
+- title: First-Tree
+  summary: Run coding agents on shared team context.
+  href: https://github.com/agent-team-foundation/first-tree
+  external: true
 ```
 
----
+> 说明句与官网首页主标一致；链接指向公开 GitHub 仓库。
 
-## 5. Now（可选）
+## Writing
 
-此刻在意什么。比简历更像人。
-
-```
-now:
-标题: Now
-正文:
-（例：把判断写清楚；少追热点；把东西做出来。写代码之外也滑雪。）
-```
-
----
-
-## 6. Connect
+空列表时页面显示占位：
 
 ```
-connect:
-X: https://x.com/ZengwuY
-小红书: （请填完整主页 URL）
-Email: hi@yueonline.com
+整理中...
 ```
 
----
+有条目后按 Building 同格式追加，占位自动消失。
 
-## 7. SEO（从上面摘，可后填）
+## Now
+
+每条 = **斜体 title** + 同行 **body**。
+
+### Autonomous agents
 
 ```
-tagline:
-（开场第一句的压缩版）
-
-description:
-（≤150 字。例：岳增五（YUE）——前大厂工程师，AI 创业中。记录技术人在 AI 时代造产品的真实过程。）
+授权agents接管固定且重复的任务，构建基础设施让agents离真实工作环境更近，减少重复和低效的信息传递，引导人类成员关注那些需要创造和灵感的核心工作。
 ```
+
+### Token efficiency
+
+```
+使用更多token来扩展人类能力边界的同时，仅仅机械地增加agents运行时间和扩大并发规模并非总能提高效率。通过harness engineering控制agents行为，从每次非预期的运行过程和产出中吸取教训并优化系统。
+```
+
+### Keep human taste
+
+```
+在高强度依赖AI的工作环境中保持审美。包括但不限于公开文字内容不使用AI生成，全部手写或语音输入；积极参与社交媒体讨论和线下社交活动，同时也欢迎大家找我聊天；定期品鉴学习优秀作品等等。
+```
+
+## Connect
+
+页面展示：`图标 · email · location`（无冒号、无动词）。
+
+| 项 | 展示 / handle | 链接 |
+| --- | --- | --- |
+| X | @ZengwuY | https://x.com/ZengwuY |
+| 小红书 | YUE \| AI | https://xhslink.com/m/BUKCzQx1r9 |
+| GitHub | yuezengwu | https://github.com/yuezengwu |
+| Email | yzengwu@gmail.com | mailto:yzengwu@gmail.com |
+| Location | 北京-海淀区-五道口 | — |
 
 ---
 
-## 8. About（完整版，可晚于首页）
+## 同步说明
 
-首页是浓缩；这里展开。300–600 字即可。
-
-```
-about:
-现在:
-之前:
-你会在这里看到什么:
-怎么联系:
-```
-
----
-
-## 落地时我会做的布局调整
-
-当前站点是「左栏名片 + 右栏正文」，**不符合 paco**。你填完内容并确认后，我会把首页改成单栏顺序：名字 → intro → Building → Writing → Now → Connect；`lib/site.ts` 里的 `author.bio` 不再作为左栏主展示（可删或仅作 SEO 备用）。
-
----
-
-## 填写自检
-
-- [ ] 开场两段能否在 10 秒内说清「你是谁、在干什么」？
-- [ ] 有没有产品名 / 公司名漏网？
-- [ ] 有没有「赋能 / 助力 / 方法论清单」？
-- [ ] 整页读完是否 ≤ 1 分钟？
-
-写完告诉我，我按块落地。
+1. YUE 在本文件改文案。
+2. Agent / 实现时把对应字段写入 `lib/site.ts`（`intro` / `now` / `building` / `writing` / `writingPlaceholder` / `social` / `location` / `nameZh`）。
+3. 未同步前，线上与本地预览仍以 `lib/site.ts` 为准。
