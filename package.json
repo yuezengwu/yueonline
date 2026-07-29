@@ -1,12 +1,27 @@
 {
-  "name": "website",
+  "name": "yueonline",
   "version": "0.1.0",
+  "description": "Source for yueonline.com, YUE's personal site and writing.",
   "private": true,
+  "license": "MIT",
+  "author": "YUE",
+  "homepage": "https://yueonline.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuezengwu/yueonline.git"
+  },
+  "engines": {
+    "node": ">=20.9"
+  },
+  "packageManager": "pnpm@10.12.1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm lint && pnpm typecheck && pnpm build"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

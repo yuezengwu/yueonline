@@ -13,7 +13,7 @@ source_of_truth_for: visual-and-interaction-rules
 ## 〇、总原则
 
 **文档感、极简、无 chrome。** 身份靠排版与留白,不靠顶栏、图标列表、巨型标题或 IDE cosplay。
-炫技实现已归档至 [`archive/website/experiments/flourish/`](../../archive/website/experiments/flourish/),不要重新引入。
+早期炫技实验不属于当前公开实现，不要重新引入。
 
 ## 一、配色(对齐 paco token)
 
@@ -30,12 +30,11 @@ source_of_truth_for: visual-and-interaction-rules
 
 ## 一点五、Logo(三分区倒三角 mark)
 
-母版与定稿约束见 [`assets/brand/logo/README.md`](../../assets/brand/logo/README.md)。
-几何源：[`assets/brand/logo/source/three-part-white/`](../../assets/brand/logo/source/three-part-white/README.md)。
+本节是公开仓库中的定稿约束；品牌源文件保留在作者的私有品牌工作区。
 
 - **形态**:倒等边三角，自交点三分区，透明缝隙；有底版为圆形 `#1a1a1a`。
 - **页内**:不放 logo;身份仍靠姓名排版。
-- **运行资产**(`apps/website/app/`):
+- **运行资产**(`app/`):
   - `icon.svg` ← `mark.svg`(圆形深底浅标,≥32px)
   - `favicon.ico` ← 含 16px 光学校正(`mark-16.svg`)等尺寸
   - `apple-icon.png` ← 180×180
@@ -87,7 +86,8 @@ Connect                ← 单行:图标 · Email · Location(无动词、无冒
 ## 五、合规基线
 
 - skip link、`:focus-visible`、真实 `<a>`/`<Link>`、`overflow-wrap`、safe-area 内边距。
-- `first-tree.ai` 可写(YUE 2026-07-13 个人站例外);其它红线见 `docs/foundation/voice-and-redlines.md`。
+- 对外只说“离开大厂”或“前大厂工程师”，不写原公司名。
+- `first-tree.ai` 可写（YUE 2026-07-13 对个人站的明确例外）；仍不披露产品细节、未公开功能或客户。
 
 ## 六、单一数据源
 

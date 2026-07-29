@@ -1,64 +1,88 @@
-# yueonline.com — 个人站
+# yueonline.com
 
-YUE 的个人 landing page + 写作站。首页按 [paco.me](https://paco.me) 文档感落地(见 `DESIGN.md`)。
+[yueonline.com](https://yueonline.com) 的公开源码：一个以文字为主、克制且无多余 chrome 的个人站与写作站。
 
-> **主页文案改 [`CONTENT.md`](CONTENT.md)**；落地实现在 `lib/site.ts`。
-> 原则:极简、无顶栏 chrome、16px 级标题、Building/Writing 多列、Connect 单行图标链。
+站点使用 Next.js App Router 构建，首页内容由一个显式的数据文件驱动，文章在构建时从 Markdown 生成。
 
 ## 技术栈
 
-Next.js 16(App Router)+ TypeScript + Tailwind CSS v4;文章为 Markdown(gray-matter + remark/rehype,构建期高亮);pnpm;部署 Vercel(`vercel.json` 固定香港 `hkg1`),域名 yueonline.com。Node ≥ 20.9。
+- Next.js 16（App Router）
+- React 19 + TypeScript
+- Tailwind CSS v4
+- Markdown：unified / remark / rehype
+- pnpm
+- Vercel
 
-## 目录结构
+## 本地运行
 
-```
-apps/website/
-├── app/
-│   ├── layout.tsx          站点外壳(字体、metadata、topbar)
-│   ├── page.tsx            首页(paco 结构:名字 → intro → 多列 → Now → Connect)
-│   ├── about/page.tsx      关于
-│   ├── blog/page.tsx       文章列表
-│   ├── blog/[slug]/page.tsx 文章详情
-│   ├── sitemap.ts / robots.ts
-│   ├── favicon.ico / icon.svg / apple-icon.png
-│   └── globals.css         全部样式(token 见 :root)
-├── content/blog/           ⭐ 文章 Markdown(文件名 = 网址)
-├── lib/
-│   ├── site.ts             运行时数据(由 CONTENT.md 同步)
-│   └── blog.ts             博客读取(仅服务端)
-└── public/                 静态资源(头像、OG 图)
-```
-
-## 本地开发
+需要 Node.js 20.9 或更高版本，以及 pnpm 10。
 
 ```bash
-pnpm install
-pnpm dev          # http://localhost:3000
-pnpm build        # 部署前自检
+git clone https://github.com/yuezengwu/yueonline.git
+cd yueonline
+corepack enable
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-## 怎么补内容(给 YUE)
+打开 [http://localhost:3000](http://localhost:3000)。
 
-- **主页文案** → [`CONTENT.md`](CONTENT.md)（改完后同步到 `lib/site.ts`）
-- 关于页 → `app/about/page.tsx`
-- 发文章 → `content/blog/` 新建 `.md`,frontmatter:`title / date / summary / tags / draft`(`draft: true` 只在本地可见)
-- favicon / app icon → `app/`；OG 图 → `public/`
+站点 URL 默认为 `https://yueonline.com`。如需在本地覆盖：
 
-> 红线:原公司说「大厂」;个人站可写 first-tree.ai 所属关系(见 voice-and-redlines)。
+```bash
+cp .env.example .env.local
+```
+
+## 常用命令
+
+| 命令 | 用途 |
+| --- | --- |
+| `pnpm dev` | 启动本地开发服务器 |
+| `pnpm lint` | 运行 ESLint |
+| `pnpm typecheck` | 运行 TypeScript 类型检查 |
+| `pnpm build` | 创建生产构建 |
+| `pnpm check` | 依次运行 lint、类型检查和生产构建 |
+
+## 内容结构
+
+```text
+app/                  页面、metadata、图标与全局样式
+components/           可复用组件
+content/blog/         Markdown 文章，文件名即 URL slug
+lib/site.ts           站点运行时数据
+lib/blog.ts           服务端 Markdown 内容层
+CONTENT.md            首页文案编辑源
+DESIGN.md             视觉与交互规则
+PRODUCT.md            产品原则
+```
+
+- 修改首页：先编辑 `CONTENT.md`，再同步到 `lib/site.ts`。
+- 发布文章：在 `content/blog/` 新建 Markdown；frontmatter 支持 `title`、`date`、`summary`、`tags` 和 `draft`。
+- 修改样式或组件：先读 `DESIGN.md`。
 
 ## 部署
 
-```bash
-vercel --prod     # 或推 GitHub 后在 Vercel Import(Root Directory = apps/website)
+在 Vercel 中导入本仓库即可，应用根目录就是仓库根目录。`vercel.json` 将函数区域固定为香港 `hkg1`。
+
+生产环境可选配置：
+
+```text
+NEXT_PUBLIC_SITE_URL=https://yueonline.com
 ```
 
-域名:Vercel → Settings → Domains 添加 `yueonline.com`,DNS 按提示配置。站点以 SSG 为主,走全球 CDN;`hkg1` 只影响 SSR 函数位置。
+## 贡献
 
-## 待补充清单
+欢迎针对代码质量、可访问性、性能和文档提出 issue 或 pull request。个人经历、站点文案与品牌方向由站点作者决定，相关修改通常不作为外部贡献接受。
 
-- [x] 首页单栏 + intro / Now / Connect(含地址)
-- [ ] `app/about/page.tsx`:完整关于正文
-- [x] `content/blog/`:第一篇文章已加入并删除示例文章
-- [x] `app/`:替换 favicon / app icon
-- [ ] `public/`:补 OG 分享图
-- [x] Building / Writing:有条目后先写 `CONTENT.md`，再同步 `lib/site.ts`
+## 许可证
+
+源代码采用 [MIT License](LICENSE)。
+
+以下个人内容与品牌资产不包含在 MIT 授权中，除非对应文件另有说明：
+
+- `CONTENT.md` 与 `content/blog/` 中的文字作品
+- `public/avatar.jpg`
+- `app/icon.svg`、`app/favicon.ico`、`app/apple-icon.png`
+- 姓名、个人简介、社交账号以及其他个人品牌元素
+
+这些内容保留全部权利；你可以 fork 本项目学习或改造成自己的站点，但请替换为自己的内容与品牌资产。

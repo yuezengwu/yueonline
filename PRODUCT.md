@@ -34,7 +34,7 @@ YUE 的个人 landing page + 长期写作站(yueonline.com)。承载「从大厂
 - **被记住 > 安全**:有明确 POV,宁可有棱角,不要 average(average = invisible)。
 - **技术人本色是真的**:mono / 工程元信息有正当性,不是拿来装样子的 costume。
 - **文字即内容**,但不靠「高级编辑风」装腔。
-- **红线**:原公司用「大厂」而非具体名。个人站例外见 [`docs/foundation/voice-and-redlines.md`](../../docs/foundation/voice-and-redlines.md)(可写 first-tree.ai 所属关系)。
+- **红线**:原公司用「大厂」而非具体名。个人站可以写 first-tree.ai 所属关系；仍不披露产品细节、未公开功能或客户。
 
 ## Accessibility & Inclusion
 
