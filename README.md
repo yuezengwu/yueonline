@@ -20,12 +20,13 @@ apps/website/
 │   ├── blog/page.tsx       文章列表
 │   ├── blog/[slug]/page.tsx 文章详情
 │   ├── sitemap.ts / robots.ts
+│   ├── favicon.ico / icon.svg / apple-icon.png
 │   └── globals.css         全部样式(token 见 :root)
 ├── content/blog/           ⭐ 文章 Markdown(文件名 = 网址)
 ├── lib/
 │   ├── site.ts             运行时数据(由 CONTENT.md 同步)
 │   └── blog.ts             博客读取(仅服务端)
-└── public/                 静态资源(头像、favicon、OG 图)
+└── public/                 静态资源(头像、OG 图)
 ```
 
 ## 本地开发
@@ -41,7 +42,7 @@ pnpm build        # 部署前自检
 - **主页文案** → [`CONTENT.md`](CONTENT.md)（改完后同步到 `lib/site.ts`）
 - 关于页 → `app/about/page.tsx`
 - 发文章 → `content/blog/` 新建 `.md`,frontmatter:`title / date / summary / tags / draft`(`draft: true` 只在本地可见)
-- favicon / OG 图 → `public/`
+- favicon / app icon → `app/`；OG 图 → `public/`
 
 > 红线:原公司说「大厂」;个人站可写 first-tree.ai 所属关系(见 voice-and-redlines)。
 
@@ -57,6 +58,7 @@ vercel --prod     # 或推 GitHub 后在 Vercel Import(Root Directory = apps/web
 
 - [x] 首页单栏 + intro / Now / Connect(含地址)
 - [ ] `app/about/page.tsx`:完整关于正文
-- [ ] `content/blog/`:第一篇文章(删掉 `hello-world.md`)
-- [ ] `public/`:替换 favicon、补 OG 分享图
-- [ ] Building / Writing:有条目后先写 `CONTENT.md`，再同步 `lib/site.ts`
+- [x] `content/blog/`:第一篇文章已加入并删除示例文章
+- [x] `app/`:替换 favicon / app icon
+- [ ] `public/`:补 OG 分享图
+- [x] Building / Writing:有条目后先写 `CONTENT.md`，再同步 `lib/site.ts`

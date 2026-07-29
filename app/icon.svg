@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 1024 1024" role="img" aria-label="YUE mark">
+  <!-- circular #1a1a1a + three-part mark #f2f2f2; geometry from source/three-part-white -->
+  <circle cx="512" cy="512" r="512" fill="#1a1a1a"/>
+  <defs>
+    <mask id="partitions" x="0" y="0" width="1024" height="1024" maskUnits="userSpaceOnUse">
+      <rect width="1024" height="1024" fill="#000"/>
+      <path d="M 128 180 H 896 L 512 845.1075 Z" fill="#fff"/>
+      <path
+        d="M 512 392.8344 L 128 180 M 512 392.8344 L 896 180 M 512 392.8344 L 512 845.1075"
+        fill="none"
+        stroke="#000"
+        stroke-width="32"
+        stroke-linecap="square"
+        stroke-linejoin="miter"
+      />
+    </mask>
+  </defs>
+  <rect width="1024" height="1024" fill="#f2f2f2" mask="url(#partitions)"/>
+</svg>

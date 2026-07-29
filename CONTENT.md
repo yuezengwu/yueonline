@@ -2,7 +2,7 @@
 status: editable
 owner: YUE
 sync_to: lib/site.ts
-last_reviewed: 2026-07-14
+last_reviewed: 2026-07-16
 ---
 
 # yueonline.com · 首页文案
@@ -55,13 +55,12 @@ AI builder
 
 ## Writing
 
-空列表时页面显示占位：
-
 ```
-整理中...
+- title: 不要把写作和思考都交给 AI
+  summary: 在高强度使用 AI 之后，我开始审视自己的文字作品。
+  href: /blog/dont-outsource-writing-and-thinking-to-ai
+  external: false
 ```
-
-有条目后按 Building 同格式追加，占位自动消失。
 
 ## Now
 

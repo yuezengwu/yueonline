@@ -28,6 +28,20 @@ source_of_truth_for: visual-and-interaction-rules
 
 禁止彩色强调色。`theme-color` = `#1a1a1a`。
 
+## 一点五、Logo(三分区倒三角 mark)
+
+母版与定稿约束见 [`assets/brand/logo/README.md`](../../assets/brand/logo/README.md)。
+几何源：[`assets/brand/logo/source/three-part-white/`](../../assets/brand/logo/source/three-part-white/README.md)。
+
+- **形态**:倒等边三角，自交点三分区，透明缝隙；有底版为圆形 `#1a1a1a`。
+- **页内**:不放 logo;身份仍靠姓名排版。
+- **运行资产**(`apps/website/app/`):
+  - `icon.svg` ← `mark.svg`(圆形深底浅标,≥32px)
+  - `favicon.ico` ← 含 16px 光学校正(`mark-16.svg`)等尺寸
+  - `apple-icon.png` ← 180×180
+- **变体**:深色 UI 用 `mark-white.svg`;浅色 UI 用 `mark-dark.svg`。
+- **禁止**:页内 chrome logo、彩色版、闭合缝隙、以 PNG 反推几何。
+
 ## 二、字体(对齐 paco 分工)
 
 | 字体 | 用途 | 加载 |
