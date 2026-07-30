@@ -57,12 +57,20 @@ PRODUCT.md            产品原则
 ```
 
 - 修改首页：先编辑 `CONTENT.md`，再同步到 `lib/site.ts`。
-- 发布文章：在 `content/blog/` 新建 Markdown；frontmatter 支持 `title`、`date`、`summary`、`tags` 和 `draft`。
+- 发布文章：在 `content/blog/` 新建 Markdown；frontmatter 支持 `title`、`date`、`summary` 和 `draft`。
 - 修改样式或组件：先读 `DESIGN.md`。
 
 ## 部署
 
-在 Vercel 中导入本仓库即可，应用根目录就是仓库根目录。`vercel.json` 将函数区域固定为香港 `hkg1`。
+Vercel 项目不连接 Git，发布统一使用手动部署。`vercel.json` 将函数区域固定为香港 `hkg1`。
+
+内容更新必须先通过检查、commit 并 push 到 GitHub，确认远端成功后才能执行生产部署：
+
+```bash
+pnpm check
+git push origin main
+vercel deploy --prod --yes --regions hkg1
+```
 
 生产环境可选配置：
 

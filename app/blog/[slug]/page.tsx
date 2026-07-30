@@ -36,7 +36,6 @@ export default async function PostPage({ params }: Props) {
         <h1 className="page-title">{post.title}</h1>
         <p className="page-meta">
           <time dateTime={post.date}>{post.date}</time>
-          {post.tags.length > 0 ? " · " + post.tags.map((t) => "#" + t).join(" ") : ""}
         </p>
         <div
           className="prose max-w-none"

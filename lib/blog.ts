@@ -2,7 +2,7 @@
  * 博客内容层。
  *
  * 文章是 content/blog/ 下的 Markdown 文件,文件名即 URL(slug)。
- * frontmatter 字段:title / date / summary / tags / draft。
+ * frontmatter 字段:title / date / summary / draft。
  * 仅在服务端运行(用到 node:fs);在客户端组件里 import 会构建报错,属预期。
  */
 import fs from "node:fs";
@@ -23,7 +23,6 @@ export type PostMeta = {
   /** ISO 日期,如 2026-06-20 */
   date: string;
   summary: string;
-  tags: string[];
   draft: boolean;
 };
 
@@ -43,7 +42,6 @@ function parseFile(slug: string): { meta: PostMeta; content: string } {
     title: typeof data.title === "string" ? data.title : slug,
     date: toISODate(data.date),
     summary: typeof data.summary === "string" ? data.summary : "",
-    tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
     draft: Boolean(data.draft),
   };
   return { meta, content };
