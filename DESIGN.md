@@ -32,11 +32,11 @@ source_of_truth_for: visual-and-interaction-rules
 
 本节是公开仓库中的定稿约束；品牌源文件保留在作者的私有品牌工作区。
 
-- **形态**:倒等边三角，自交点三分区，透明缝隙；有底版为圆形 `#1a1a1a`。
+- **形态**:倒等边三角，自交点三分区，透明缝隙；网站运行资产试用方形 `#1a1a1a` 底版，以改善标签页小尺寸辨识度。该试验不反向修改私有品牌母版。
 - **页内**:不放 logo;身份仍靠姓名排版。
 - **运行资产**(`app/`):
-  - `icon.svg` ← `mark.svg`(圆形深底浅标,≥32px)
-  - `favicon.ico` ← 含 16px 光学校正(`mark-16.svg`)等尺寸
+  - `icon.svg` ← 方形深底浅标(≥32px)
+  - `favicon.ico` ← 含 16px 光学校正的方形底版本等尺寸
   - `apple-icon.png` ← 180×180
 - **变体**:深色 UI 用 `mark-white.svg`;浅色 UI 用 `mark-dark.svg`。
 - **禁止**:页内 chrome logo、彩色版、闭合缝隙、以 PNG 反推几何。
