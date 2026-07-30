@@ -1,5 +1,6 @@
 import type { ComponentType, CSSProperties } from "react";
 import { IconGitHub, IconX, IconXiaohongshu } from "@/components/social-icons";
+import { getPublishedPostsMeta } from "@/lib/blog";
 import { site, type Entry } from "@/lib/site";
 
 function stagger(n: number): CSSProperties {
@@ -54,6 +55,14 @@ function EntryList({ items }: { items: Entry[] }) {
 export default function Home() {
   const { intro } = site;
   const email = site.social.find((s) => s.label === "Email");
+  const writing = getPublishedPostsMeta(3).map(
+    (post): Entry => ({
+      title: post.title,
+      summary: post.summary,
+      href: `/blog/${post.slug}`,
+      external: false,
+    }),
+  );
 
   return (
     <div className="shell">
@@ -106,8 +115,8 @@ export default function Home() {
             <h2 id="writing-h" className="col__title" translate="no">
               Writing
             </h2>
-            {site.writing.length > 0 ? (
-              <EntryList items={site.writing} />
+            {writing.length > 0 ? (
+              <EntryList items={writing} />
             ) : (
               <p className="col__placeholder">{site.writingPlaceholder}</p>
             )}

@@ -59,6 +59,12 @@ export function getAllPostsMeta(): PostMeta[] {
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
+/** 获取已发布文章,可限制数量;草稿在任何环境都不会返回。 */
+export function getPublishedPostsMeta(limit?: number): PostMeta[] {
+  const posts = getAllPostsMeta().filter((post) => !post.draft);
+  return typeof limit === "number" ? posts.slice(0, limit) : posts;
+}
+
 export function getAllSlugs(): string[] {
   return getAllPostsMeta().map((m) => m.slug);
 }

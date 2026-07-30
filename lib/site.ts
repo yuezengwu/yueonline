@@ -47,14 +47,6 @@ export const site = {
       external: true,
     },
   ] as Entry[],
-  writing: [
-    {
-      title: "不要把写作和思考都交给 AI",
-      summary: "在高强度使用 AI 之后，我开始审视自己的文字作品。",
-      href: "/blog/dont-outsource-writing-and-thinking-to-ai",
-      external: false,
-    },
-  ] as Entry[],
   /** Writing 空列表时的占位文案 */
   writingPlaceholder: "整理中...",
 

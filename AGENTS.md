@@ -7,5 +7,6 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## Content publishing
 
 - Article frontmatter uses `title`, `date`, `summary`, and `draft`; do not add tags.
+- The homepage Writing section derives from article frontmatter and shows the latest three non-draft posts; never duplicate article entries in `lib/site.ts` or `CONTENT.md`.
 - For every content update, run checks, commit, and push to GitHub before manually deploying to Vercel.
 - Keep Vercel Git integration disconnected; publishing is always manually triggered.

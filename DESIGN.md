@@ -7,7 +7,7 @@ source_of_truth_for: visual-and-interaction-rules
 # YUE 个人站 · 设计原则(DESIGN.md)
 
 > 改样式 / 加组件前先读这份。`globals.css` 是实现,本文件是依据;冲突以本文件为准。
-> 首页文案以 `CONTENT.md` 为准（YUE 随时改）；落地到 `lib/site.ts` 后页面才会更新。
+> 首页固定文案以 `CONTENT.md` 为准（YUE 随时改）；落地到 `lib/site.ts` 后页面才会更新。Writing 条目例外：直接读取最近 3 篇已发布文章的 frontmatter。
 > **视觉参考: [paco.me](https://paco.me)**(2026-07-13 实测度量落地)。
 
 ## 〇、总原则
@@ -91,7 +91,8 @@ Connect                ← 单行:图标 · Email · Location(无动词、无冒
 
 ## 六、单一数据源
 
-- 文案 / 社交 / 地址:先改 `CONTENT.md`，再同步 `lib/site.ts`
+- 固定文案 / 社交 / 地址:先改 `CONTENT.md`，再同步 `lib/site.ts`
+- 首页 Writing:从 `content/blog/*.md` 自动读取最近 3 篇 `draft: false` 的文章，不在主页配置中重复维护
 - 文章:`content/blog/*.md` + `lib/blog.ts`(仅服务端)
 
 ## 七、改动前自检

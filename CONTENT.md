@@ -55,12 +55,12 @@ AI builder
 
 ## Writing
 
-```
-- title: 不要把写作和思考都交给 AI
-  summary: 在高强度使用 AI 之后，我开始审视自己的文字作品。
-  href: /blog/dont-outsource-writing-and-thinking-to-ai
-  external: false
-```
+Writing 不在本文件维护条目。主页自动读取 `content/blog/*.md`：
+
+1. 只展示 `draft: false` 的文章；
+2. 按 frontmatter 的 `date` 从近到远排序；
+3. 最多展示最近 3 篇；
+4. 标题与说明分别使用文章的 `title` 和 `summary`。
 
 ## Now
 
@@ -101,5 +101,5 @@ AI builder
 ## 同步说明
 
 1. YUE 在本文件改文案。
-2. Agent / 实现时把对应字段写入 `lib/site.ts`（`intro` / `now` / `building` / `writing` / `writingPlaceholder` / `social` / `location` / `nameZh`）。
+2. Agent / 实现时把对应字段写入 `lib/site.ts`（`intro` / `now` / `building` / `writingPlaceholder` / `social` / `location` / `nameZh`）；Writing 条目不需要同步。
 3. 未同步前，线上与本地预览仍以 `lib/site.ts` 为准。

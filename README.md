@@ -58,6 +58,7 @@ PRODUCT.md            产品原则
 
 - 修改首页：先编辑 `CONTENT.md`，再同步到 `lib/site.ts`。
 - 发布文章：在 `content/blog/` 新建 Markdown；frontmatter 支持 `title`、`date`、`summary` 和 `draft`。
+- 主页 Writing：自动展示日期最近的 3 篇非草稿文章，不需要维护单独列表。
 - 修改样式或组件：先读 `DESIGN.md`。
 
 ## 部署
