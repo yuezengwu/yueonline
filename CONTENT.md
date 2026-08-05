@@ -70,7 +70,7 @@ Writing 不在本文件维护条目。主页自动读取 `content/blog/*.md`：
 
 1. 只展示 `draft: false` 的文章；
 2. 按 frontmatter 的 `date` 从近到远排序；
-3. 最多展示最近 3 篇；
+3. 最多展示最近 2 篇；
 4. 标题与说明分别使用文章的 `title` 和 `summary`。
 
 ## Now

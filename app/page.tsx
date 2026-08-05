@@ -55,7 +55,7 @@ function EntryList({ items }: { items: Entry[] }) {
 export default function Home() {
   const { intro } = site;
   const email = site.social.find((s) => s.label === "Email");
-  const writing = getPublishedPostsMeta(3).map(
+  const writing = getPublishedPostsMeta(2).map(
     (post): Entry => ({
       title: post.title,
       summary: post.summary,
