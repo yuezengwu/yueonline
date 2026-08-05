@@ -111,6 +111,12 @@ export default function Home() {
             </h2>
             <EntryList items={site.building} />
           </section>
+          <section className="col" aria-labelledby="visuals-h">
+            <h2 id="visuals-h" className="col__title" translate="no">
+              Visuals
+            </h2>
+            <EntryList items={site.visuals} />
+          </section>
           <section className="col" aria-labelledby="writing-h">
             <h2 id="writing-h" className="col__title" translate="no">
               Writing

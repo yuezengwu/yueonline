@@ -47,6 +47,14 @@ export const site = {
       external: true,
     },
   ] as Entry[],
+  visuals: [
+    {
+      title: "Gargantua",
+      summary: "A real-time WebGL study of gravitational lensing.",
+      href: "/visuals/gargantua",
+      external: false,
+    },
+  ] as Entry[],
   /** Writing 空列表时的占位文案 */
   writingPlaceholder: "整理中...",
 

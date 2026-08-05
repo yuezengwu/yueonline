@@ -11,16 +11,22 @@
     "url": "https://github.com/yuezengwu/yueonline.git"
   },
   "engines": {
-    "node": ">=20.9"
+    "node": ">=20.19"
   },
   "packageManager": "pnpm@10.12.1",
   "scripts": {
+    "predev": "pnpm build:visuals",
     "dev": "next dev",
+    "dev:visuals": "vite --config artworks/gargantua/vite.config.mts",
+    "prebuild": "pnpm build:visuals",
     "build": "next build",
+    "build:visuals": "pnpm typecheck:visuals && vite build --config artworks/gargantua/vite.config.mts --base /visuals/gargantua/",
     "start": "next start",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "typecheck": "tsc --noEmit",
+    "typecheck:visuals": "tsc --noEmit --project artworks/gargantua/tsconfig.json",
+    "test:visuals": "playwright test --config artworks/gargantua/playwright.config.ts",
     "check": "pnpm lint && pnpm typecheck && pnpm build"
   },
   "dependencies": {
@@ -37,14 +43,18 @@
     "unified": "^11.0.5"
   },
   "devDependencies": {
+    "@playwright/test": "1.62.1",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.20",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "0.185.3",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "three": "0.185.1",
+    "typescript": "^5",
+    "vite": "8.2.0"
   }
 }

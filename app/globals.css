@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../styles/back-link.css";
 @plugin "@tailwindcss/typography";
 
 /* ==============================================================
@@ -195,8 +196,8 @@ em.lead {
   line-height: normal;
 }
 
-/* ── Building | Writing 多列 ─────────────────── */
-/* 总宽对齐 paco 三栏轨道;两栏均分,只留一档列距 */
+/* ── Building | Visuals | Writing 三列 ───────── */
+/* 总宽对齐 paco 三栏轨道 */
 .cols {
   display: flex;
   flex-wrap: wrap;
@@ -322,21 +323,6 @@ a.entry__title:hover {
 }
 
 /* ── 子页 ────────────────────────────────────── */
-.back {
-  display: inline-block;
-  margin-bottom: 28px;
-  color: var(--dim);
-  font-size: 14px;
-  line-height: 20px;
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 2.5px;
-  transition: color var(--dur-link) ease, text-decoration-color var(--dur-link) ease;
-}
-.back:hover {
-  color: var(--text);
-  text-decoration-color: var(--dim);
-}
 .page-title {
   margin: 0 0 12px;
   font-size: 16px;

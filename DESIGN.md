@@ -50,7 +50,7 @@ source_of_truth_for: visual-and-interaction-rules
 | 系统中文栈 | CJK 正文 fallback(`PingFang SC` 等) | 系统 |
 
 - 首页 **H1 名字 = 18px / weight 500**(`.heading.name`);非巨标题,无额外字距。
-- Building / Writing 列标题:**14px / weight 400 / `--dim`**。
+- Building / Visuals / Writing 列标题:**14px / weight 400 / `--dim`**。
 - Now / Connect 标题:**16px / 500 / `--text`**。
 - **禁止** Noto Serif SC 900 巨标题、IBM Plex Mono 主导航气质。
 
@@ -62,14 +62,15 @@ source_of_truth_for: visual-and-interaction-rules
 名字 (h1)
 intro 段落(首句可 em)
 ——
-Building | Writing     ← 两栏均分原三栏总宽(~640px),列距 32px;可空
+Building | Visuals | Writing  ← 三栏总宽(~640px),列距 32px;可空
 ——
 Now                    ← 全宽;每段「斜体引导 + 正文」同行(对齐 paco),字色均为 `--text`
 Connect                ← 单行:图标 · Email · Location(无动词、无冒号)
 ```
 
 - **无全局 sticky 顶栏。** 子页用一行文字返回链即可。
-- 主栏在大屏水平居中;小屏 Building/Writing 改为纵向堆叠。
+- 全屏 Visuals 作品只保留左上角的 `← 岳增五` 返回链接；字号、灰度、下划线、hover 与 focus 状态必须复用全站 `.back` 规范，不叠加标题、说明或站点导航。
+- 主栏在大屏水平居中;小屏 Building/Visuals/Writing 改为纵向堆叠。
 - 列表项模式(有条目时):亮色标题(+ 外链 ↗) + 下方 dim 一行说明。空列表只保留列标题。
 
 ## 四、链接与动效
@@ -92,6 +93,7 @@ Connect                ← 单行:图标 · Email · Location(无动词、无冒
 ## 六、单一数据源
 
 - 固定文案 / 社交 / 地址:先改 `CONTENT.md`，再同步 `lib/site.ts`
+- Visuals 条目:先改 `CONTENT.md`，再同步 `lib/site.ts`;作品发布构建放在 `public/visuals/`
 - 首页 Writing:从 `content/blog/*.md` 自动读取最近 3 篇 `draft: false` 的文章，不在主页配置中重复维护
 - 文章:`content/blog/*.md` + `lib/blog.ts`(仅服务端)
 

@@ -12,6 +12,9 @@
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
+/blob-report/
 
 # next.js
 /.next/
@@ -39,6 +42,10 @@ yarn-error.log*
 
 # local scratch (screenshots, experiments)
 .tmp/
+/.runtime/
+
+# generated visual-artwork builds
+/public/visuals/
 
 # typescript
 *.tsbuildinfo

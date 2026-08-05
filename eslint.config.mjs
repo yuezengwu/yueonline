@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Standalone artwork source has its own compiler and test boundary.
+    "artworks/**",
+    // Versioned production output from standalone visual projects.
+    "public/visuals/**",
   ]),
 ]);
 

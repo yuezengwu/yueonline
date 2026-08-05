@@ -15,7 +15,7 @@ last_reviewed: 2026-07-16
 ```
 名字
 开场 (斜体 lead + 正文)
-Building | Writing
+Building | Visuals | Writing
 Now
 Connect  ← 图标 · email · location
 ```
@@ -52,6 +52,17 @@ AI builder
 ```
 
 > 说明句与官网首页主标一致；链接指向公开 GitHub 仓库。
+
+## Visuals
+
+```
+- title: Gargantua
+  summary: A real-time WebGL study of gravitational lensing.
+  href: /visuals/gargantua
+  external: false
+```
+
+> Visuals 用于实时 Shader、科学可视化与动态图形作品；作品以独立全屏页面运行，不给逐帧渲染路径增加站点框架负担。
 
 ## Writing
 
@@ -101,5 +112,5 @@ Writing 不在本文件维护条目。主页自动读取 `content/blog/*.md`：
 ## 同步说明
 
 1. YUE 在本文件改文案。
-2. Agent / 实现时把对应字段写入 `lib/site.ts`（`intro` / `now` / `building` / `writingPlaceholder` / `social` / `location` / `nameZh`）；Writing 条目不需要同步。
+2. Agent / 实现时把对应字段写入 `lib/site.ts`（`intro` / `now` / `building` / `visuals` / `writingPlaceholder` / `social` / `location` / `nameZh`）；Writing 条目不需要同步。
 3. 未同步前，线上与本地预览仍以 `lib/site.ts` 为准。

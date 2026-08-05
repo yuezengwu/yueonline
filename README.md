@@ -1,6 +1,6 @@
 # yueonline.com
 
-[yueonline.com](https://yueonline.com) 的公开源码：一个以文字为主、克制且无多余 chrome 的个人站与写作站。
+[yueonline.com](https://yueonline.com) 的公开源码：一个以文字为主、克制且无多余 chrome 的个人站、写作站与视觉作品入口。
 
 站点使用 Next.js App Router 构建，首页内容由一个显式的数据文件驱动，文章在构建时从 Markdown 生成。
 
@@ -38,19 +38,25 @@ cp .env.example .env.local
 | 命令 | 用途 |
 | --- | --- |
 | `pnpm dev` | 启动本地开发服务器 |
+| `pnpm dev:visuals` | 单独开发视觉作品 |
 | `pnpm lint` | 运行 ESLint |
 | `pnpm typecheck` | 运行 TypeScript 类型检查 |
+| `pnpm typecheck:visuals` | 检查视觉作品源码 |
 | `pnpm build` | 创建生产构建 |
+| `pnpm build:visuals` | 重新生成视觉作品发布资源 |
+| `pnpm test:visuals` | 运行视觉作品回归测试 |
 | `pnpm check` | 依次运行 lint、类型检查和生产构建 |
 
 ## 内容结构
 
 ```text
 app/                  页面、metadata、图标与全局样式
+artworks/             视觉作品源码、测试与当前基准图
 components/           可复用组件
 content/blog/         Markdown 文章，文件名即 URL slug
 lib/site.ts           站点运行时数据
 lib/blog.ts           服务端 Markdown 内容层
+public/visuals/        自动生成的视觉作品发布构建（不手改）
 CONTENT.md            首页文案编辑源
 DESIGN.md             视觉与交互规则
 PRODUCT.md            产品原则
@@ -59,6 +65,7 @@ PRODUCT.md            产品原则
 - 修改首页：先编辑 `CONTENT.md`，再同步到 `lib/site.ts`。
 - 发布文章：在 `content/blog/` 新建 Markdown；frontmatter 支持 `title`、`date`、`summary` 和 `draft`。
 - 主页 Writing：自动展示日期最近的 3 篇非草稿文章，不需要维护单独列表。
+- 主页 Visuals：由 `lib/site.ts` 维护；源码位于 `artworks/`，`pnpm dev` 与 `pnpm build` 会自动生成 `public/visuals/`，不要直接编辑发布产物。
 - 修改样式或组件：先读 `DESIGN.md`。
 
 ## 部署

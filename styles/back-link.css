@@ -1,0 +1,17 @@
+/* Shared source of truth for the personal site's return link. */
+.back {
+  display: inline-block;
+  margin-bottom: 28px;
+  color: var(--dim);
+  font-size: 14px;
+  line-height: 20px;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2.5px;
+  transition: color var(--dur-link) ease, text-decoration-color var(--dur-link) ease;
+}
+
+.back:hover {
+  color: var(--text);
+  text-decoration-color: var(--dim);
+}

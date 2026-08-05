@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" data-ui-mode="art" data-cursor="visible">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="An interactive real-time WebGL study of a Schwarzschild black hole, gravitational lensing, and a luminous accretion disk."
+    />
+    <title>Gargantua — Black Hole Study</title>
+  </head>
+  <body>
+    <main id="app">
+      <canvas
+        id="scene"
+        tabindex="-1"
+        role="img"
+        aria-label="A real-time Schwarzschild black hole with a luminous accretion disk and gravitationally lensed deep-space background. Drag to orbit and scroll or pinch to zoom."
+      ></canvas>
+
+      <div class="screen-fx" aria-hidden="true"></div>
+
+      <section id="error-overlay" class="error-overlay" role="alert" aria-live="assertive" hidden>
+        <div class="error-card">
+          <h1>Renderer unavailable</h1>
+          <p id="error-message">The visual could not start on this device.</p>
+          <button id="retry-renderer" type="button">Reload</button>
+        </div>
+      </section>
+    </main>
+
+    <a
+      id="site-return"
+      class="back site-return"
+      href="/"
+      aria-label="返回岳增五主页"
+      hidden
+    >← 岳增五</a>
+
+    <noscript>This visual requires JavaScript and WebGL 2.</noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
