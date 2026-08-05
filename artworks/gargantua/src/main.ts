@@ -47,6 +47,15 @@ interface ViewPreset {
   inclination: number;
 }
 
+interface RecordingFrame extends ViewPreset {
+  fov: number;
+  time: number;
+}
+
+interface RecordingController {
+  setFrame: (frame: RecordingFrame) => void;
+}
+
 const QUALITY_PROFILES: Record<QualityTier, QualityProfile> = {
   standard: { pixelRatioCap: 1, steps: 200 },
   high: { pixelRatioCap: 1.5, steps: 320 },
@@ -73,6 +82,8 @@ const VISUAL = {
 
 const searchParameters = new URLSearchParams(window.location.search);
 const shotMode = searchParameters.get('shot') === '1';
+const recordingMode = import.meta.env.DEV
+  && searchParameters.get('record') === '1';
 const gpuProfilingEnabled = searchParameters.get('profile') === '1';
 const requestedQuality = searchParameters.get('q');
 const requestedView = searchParameters.get('cam');
@@ -154,7 +165,7 @@ const retryRenderer = getRequiredElement<HTMLButtonElement>('#retry-renderer');
 const websiteEntry = window.location.pathname
   .replace(/\/+$/, '') === '/visuals/gargantua';
 
-siteReturn.hidden = !websiteEntry || shotMode;
+siteReturn.hidden = !websiteEntry || shotMode || recordingMode;
 document.documentElement.dataset.websiteEntry = String(websiteEntry);
 
 function showFatalError(
@@ -178,7 +189,9 @@ const simulationTime = Number.isFinite(requestedTime)
   ? Math.max(requestedTime, 0)
   : 0;
 const qualityProfile = QUALITY_PROFILES[quality];
-const adaptiveResolutionEnabled = !shotMode && !isQualityTier(requestedQuality);
+const adaptiveResolutionEnabled = !shotMode
+  && !recordingMode
+  && !isQualityTier(requestedQuality);
 const adaptiveResolution = adaptiveResolutionEnabled
   ? new AdaptiveResolutionController(performance.now())
   : null;
@@ -201,6 +214,7 @@ document.documentElement.dataset.paletteMode = 'observational';
 document.documentElement.dataset.flowMode = 'trails';
 document.documentElement.dataset.skyMode = 'deepfield';
 document.documentElement.dataset.shot = String(shotMode);
+document.documentElement.dataset.recording = String(recordingMode);
 document.documentElement.dataset.renderReady = 'false';
 document.documentElement.dataset.quality = quality;
 document.documentElement.dataset.qualitySource = isQualityTier(requestedQuality)
@@ -213,7 +227,9 @@ document.documentElement.dataset.resolutionLevel = '0';
 document.documentElement.dataset.resolutionScale = resolutionScale.toFixed(2);
 document.documentElement.dataset.steps = String(qualityProfile.steps);
 document.documentElement.dataset.view = view;
-document.documentElement.dataset.cursor = shotMode ? 'hidden' : 'visible';
+document.documentElement.dataset.cursor = shotMode || recordingMode
+  ? 'hidden'
+  : 'visible';
 document.documentElement.dataset.gpuProfiler = gpuProfilingEnabled
   ? 'initializing'
   : 'disabled';
@@ -262,6 +278,7 @@ document.documentElement.dataset.gpuProfiler = gpuProfiler.status;
 declare global {
   interface Window {
     __blackHoleGpuProfile?: () => GpuProfileSummary;
+    __gargantuaRecording?: RecordingController;
   }
 }
 
@@ -342,6 +359,28 @@ controls.maxDistance = VISUAL.maxCameraDistance;
 controls.rotateSpeed = 0.55;
 controls.zoomSpeed = 0.7;
 controls.update();
+
+if (recordingMode) {
+  window.__gargantuaRecording = {
+    setFrame(frame): void {
+      observerCamera.position.copy(sphericalToCartesian({
+        azimuth: frame.azimuth,
+        distance: clamp(
+          frame.distance,
+          controls.minDistance,
+          controls.maxDistance,
+        ),
+        inclination: clamp(frame.inclination, -89.9, 89.9),
+      }));
+      observerCamera.fov = clamp(frame.fov, 1, 120);
+      observerCamera.updateProjectionMatrix();
+      controls.target.set(0, 0, 0);
+      controls.update();
+      state.simulationTime = Math.max(frame.time, 0);
+      updateTelemetry(performance.now(), true);
+    },
+  };
+}
 
 const renderPass = new RenderPass(scene, fullscreenCamera);
 const bloomPass = new UnrealBloomPass(
@@ -475,7 +514,7 @@ function renderFrame(now: number): void {
   const deltaSeconds = clamp(frameDuration / 1000, 0, 0.1);
   state.lastFrameAt = now;
 
-  if (!shotMode && document.visibilityState === 'visible') {
+  if (!shotMode && !recordingMode && document.visibilityState === 'visible') {
     state.simulationTime += deltaSeconds;
   }
 
@@ -547,7 +586,7 @@ function handleControlsStart(): void {
 let cursorHideTimer: number | undefined;
 
 function hideCursor(): void {
-  if (shotMode) {
+  if (shotMode || recordingMode) {
     return;
   }
 
@@ -555,7 +594,7 @@ function hideCursor(): void {
 }
 
 function revealCursor(): void {
-  if (shotMode) {
+  if (shotMode || recordingMode) {
     return;
   }
 
@@ -616,6 +655,7 @@ if (import.meta.hot) {
     canvas.removeEventListener('webglcontextlost', handleContextLost);
     renderer.debug.onShaderError = null;
     delete window.__blackHoleGpuProfile;
+    delete window.__gargantuaRecording;
     gpuProfiler.dispose();
     controls.dispose();
     postPass.dispose();
