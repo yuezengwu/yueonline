@@ -49,9 +49,13 @@ AI builder
   summary: Run coding agents on shared team context.
   href: https://github.com/agent-team-foundation/first-tree
   external: true
+- title: dsh-explain
+  summary: Turn DSH work sessions into a private, local-first learning thread.
+  href: https://github.com/yuezengwu/dsh-explain
+  external: true
 ```
 
-> 说明句与官网首页主标一致；链接指向公开 GitHub 仓库。
+> 说明句与各项目公开说明一致；链接指向公开 GitHub 仓库。
 
 ## Visuals
 

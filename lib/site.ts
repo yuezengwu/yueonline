@@ -46,6 +46,13 @@ export const site = {
       href: "https://github.com/agent-team-foundation/first-tree",
       external: true,
     },
+    {
+      title: "dsh-explain",
+      summary:
+        "Turn DSH work sessions into a private, local-first learning thread.",
+      href: "https://github.com/yuezengwu/dsh-explain",
+      external: true,
+    },
   ] as Entry[],
   visuals: [
     {
