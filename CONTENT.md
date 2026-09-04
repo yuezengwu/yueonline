@@ -46,12 +46,16 @@ AI builder
 
 ```
 - title: First-Tree
-  summary: Run coding agents on shared team context.
-  href: https://github.com/agent-team-foundation/first-tree
+  summary: Context-grounded agentic work for teams.
+  href: https://github.com/first-tree-ai/first-tree
   external: true
 - title: dsh-explain
-  summary: Turn DSH work sessions into a private, local-first learning thread.
+  summary: Private, local-first continuous learning for DeepSeek Harness.
   href: https://github.com/yuezengwu/dsh-explain
+  external: true
+- title: Zhouli
+  summary: Review code through the Six Ministries of Zhou Li.
+  href: https://github.com/yuezengwu/zhouli
   external: true
 ```
 
