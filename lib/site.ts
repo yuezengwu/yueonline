@@ -41,6 +41,12 @@ export const site = {
   /** 多列列表;文案以 CONTENT.md 为准 */
   building: [
     {
+      title: "OpenTag",
+      summary: "Your model, your machine, your AI coworker.",
+      href: "https://github.com/first-tree-ai/opentag",
+      external: true,
+    },
+    {
       title: "First-Tree",
       summary: "Context-grounded agentic work for teams.",
       href: "https://github.com/first-tree-ai/first-tree",
@@ -50,12 +56,6 @@ export const site = {
       title: "dsh-explain",
       summary: "Private, local-first continuous learning for DeepSeek Harness.",
       href: "https://github.com/yuezengwu/dsh-explain",
-      external: true,
-    },
-    {
-      title: "Zhouli",
-      summary: "Review code through the Six Ministries of Zhou Li.",
-      href: "https://github.com/yuezengwu/zhouli",
       external: true,
     },
   ] as Entry[],

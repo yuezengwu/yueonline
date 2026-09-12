@@ -2,7 +2,7 @@
 status: editable
 owner: YUE
 sync_to: lib/site.ts
-last_reviewed: 2026-07-16
+last_reviewed: 2026-09-12
 ---
 
 # yueonline.com · 首页文案
@@ -45,6 +45,10 @@ AI builder
 ## Building
 
 ```
+- title: OpenTag
+  summary: Your model, your machine, your AI coworker.
+  href: https://github.com/first-tree-ai/opentag
+  external: true
 - title: First-Tree
   summary: Context-grounded agentic work for teams.
   href: https://github.com/first-tree-ai/first-tree
@@ -52,10 +56,6 @@ AI builder
 - title: dsh-explain
   summary: Private, local-first continuous learning for DeepSeek Harness.
   href: https://github.com/yuezengwu/dsh-explain
-  external: true
-- title: Zhouli
-  summary: Review code through the Six Ministries of Zhou Li.
-  href: https://github.com/yuezengwu/zhouli
   external: true
 ```
 
