@@ -2,7 +2,8 @@
 
 纪念人生第一次一千粉丝的无限头像合影。独立全屏作品，首页入口由 `CONTENT.md` 与 `lib/site.ts` 维护。
 
-- 状态：2026-09-13 本地发布前验收通过，YUE 已授权正式发布；线上状态待部署后核对。
+- 状态：2026-09-13 已获 YUE 授权并正式发布，首页 Visuals 已加入入口：[1000 Followers](https://yueonline.com/visuals/first-thousand)。
+- 发布核验：Vercel 生产部署 `dpl_9SeCdZfndrvgRuywRwU3ph2F9jrF` 已就绪并绑定 `yueonline.com`，应用提交 `f4a179d2b49d8cf2b77b257fefc20edbbc7268fa`。线上 JS、CSS、头像、图集、名单均返回 200，内容哈希与本地验收构建一致；首页入口、搜索定位、真实简介与当前头像已实测。Vercel Git 集成保持断开。
 - 本地预览：开发模式 `http://127.0.0.1:4174/`；整站生产模式 `http://127.0.0.1:4175/visuals/first-thousand`；站内作品路径：`/visuals/first-thousand`。
 - 核心：YUE 当前头像、「1000 Followers」标题、柔和侧光与边缘高光。文案按 YUE 原话：「为了感谢我人生中的前1000粉丝，我要让你们在互联网上留下存档！」桌面横向排版，手机竖向排版。
 - 中心头像：2026-09-13 同步 [X 当前头像](https://pbs.twimg.com/profile_images/2098700520139653120/CIZqqZD2_400x400.jpg)，本地保存为 `public/yue.jpg`。保留 X 调整后的 400 × 400 构图，未重新裁切或生成。
