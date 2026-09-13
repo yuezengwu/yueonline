@@ -1,0 +1,4 @@
+{
+  "extends": "../gargantua/tsconfig.json",
+  "include": ["src"]
+}

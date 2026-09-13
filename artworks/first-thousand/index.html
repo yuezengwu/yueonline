@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#161616" />
+    <meta name="description" content="为了感谢我人生中的前1000粉丝，我要让你们在互联网上留下存档！" />
+    <title>1000 Followers — 岳增五</title>
+  </head>
+  <body>
+    <main id="wall" aria-label="一千粉丝头像合影">
+      <canvas id="scene" tabindex="0" aria-label="圆形头像合影。向任意方向拖动或滚动，双指或 Control 加滚轮缩放。单击选中，双击打开 X 主页。方向键移动，加减键缩放，0 查看全景，Escape 回到中心。"></canvas>
+      <section id="dedication" aria-label="纪念人生第一次一千粉丝">
+        <div class="core-light" aria-hidden="true"></div>
+        <div class="dedication-content">
+          <p class="eyebrow">THE FIRST THOUSAND</p>
+          <div class="milestone"><img src="%BASE_URL%yue.jpg" width="144" height="144" alt="岳增五的头像" /><span class="milestone-label">1000 <span class="followers">Followers</span></span></div>
+          <h1>为了感谢我人生中的前1000粉丝，我要让你们在互联网上留下存档！</h1>
+          <p class="signature">岳增五 <span>·</span> 2026.09</p>
+        </div>
+      </section>
+      <p id="loading" role="status">正在集合。</p>
+      <section id="error" hidden role="alert"><p>照片墙暂时无法载入。</p><button id="retry" type="button">重新载入</button></section>
+    </main>
+    <a class="back site-return" href="/">← 岳增五</a>
+    <form id="people-search" role="search" aria-label="在合影中找到自己" autocomplete="off">
+      <div class="search-field">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 4.5 4.5" /></svg>
+        <input id="search-input" type="search" role="combobox" aria-label="搜索 X 用户名或昵称" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" aria-describedby="search-status" placeholder="在这里找到自己" autocapitalize="none" spellcheck="false" maxlength="100" disabled />
+        <button id="search-clear" type="button" aria-label="清空搜索" hidden>×</button>
+      </div>
+      <div id="search-panel" hidden>
+        <p id="search-status" role="status" aria-live="polite"></p>
+        <div id="search-results" role="listbox" aria-label="匹配的朋友"></div>
+      </div>
+    </form>
+    <aside id="profile-bubble" aria-label="选中朋友的简介" hidden>
+      <button id="bubble-close" type="button" aria-label="关闭简介">×</button>
+      <strong id="bubble-name"></strong>
+      <span id="bubble-handle"></span>
+      <p id="bubble-bio"></p>
+      <a id="bubble-link" target="_blank" rel="noopener noreferrer">在 X 查看 ↗</a>
+    </aside>
+    <nav class="view-controls" aria-label="合影视角">
+      <button id="zoom-out" type="button" aria-label="缩小">−</button>
+      <button id="overview" type="button">看见所有人</button>
+      <button id="zoom-in" type="button" aria-label="放大">+</button>
+    </nav>
+    <p class="gesture-hint"><span id="collection-count"></span>拖动探索 · 双击相遇</p>
+    <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
+    <noscript>这张可交互合影需要 JavaScript。<a href="/">返回主页</a></noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

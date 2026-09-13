@@ -61,6 +61,12 @@ export const site = {
   ] as Entry[],
   visuals: [
     {
+      title: "1000 Followers",
+      summary: "A portrait of the people who were here.",
+      href: "/visuals/first-thousand",
+      external: false,
+    },
+    {
       title: "Gargantua",
       summary: "A real-time WebGL study of gravitational lensing.",
       href: "/visuals/gargantua",

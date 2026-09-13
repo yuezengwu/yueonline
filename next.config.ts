@@ -4,6 +4,10 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
+        source: "/visuals/first-thousand",
+        destination: "/visuals/first-thousand/index.html",
+      },
+      {
         source: "/visuals/gargantua",
         destination: "/visuals/gargantua/index.html",
       },

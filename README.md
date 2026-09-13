@@ -98,6 +98,7 @@ NEXT_PUBLIC_SITE_URL=https://yueonline.com
 
 - `CONTENT.md` 与 `content/blog/` 中的文字作品
 - `public/avatar.jpg`
+- `artworks/first-thousand/public/portraits.webp` 中的第三方头像，以及对应账号的个人品牌内容
 - `app/icon.svg`、`app/favicon.ico`、`app/apple-icon.png`
 - 姓名、个人简介、社交账号以及其他个人品牌元素
 
