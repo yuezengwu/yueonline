@@ -50,13 +50,13 @@ async function makeCard(person: Person, portrait: HTMLCanvasElement): Promise<Bl
   context.fillText(title,96,164);
   const date=document.querySelector('.signature')!.textContent!.match(/\d{4}\.\d{2}/)?.[0];
   if(date){context.textAlign='right';context.font=`400 21px ${FONT}`;context.fillStyle='#8e8e89';context.fillText(date,1104,156);}
-  drawPortrait(context,author,336,408,142);
-  drawPortrait(context,portrait,864,408,142);
+  drawPortrait(context,portrait,336,408,142);
+  drawPortrait(context,author,864,408,142);
   context.textAlign='center';context.fillStyle='#777772';context.font='italic 48px Georgia, serif';context.fillText('&',600,424);
-  drawIdentity(context,'岳增五','ZengwuY',336);
-  drawIdentity(context,person.displayName,person.handle,864);
+  drawIdentity(context,person.displayName,person.handle,336);
+  drawIdentity(context,'岳增五','ZengwuY',864);
   if(person.avatarStatus==='unavailable'){
-    context.font=`400 18px ${FONT}`;context.fillStyle='#858580';context.fillText('头像暂不可用，以默认图留念',864,701);
+    context.font=`400 18px ${FONT}`;context.fillStyle='#858580';context.fillText('头像暂不可用，以默认图留念',336,701);
   }
   context.beginPath();context.moveTo(96,750);context.lineTo(1104,750);context.strokeStyle='#ffffff20';context.stroke();
   context.textAlign='left';context.font=`400 28px ${FONT}`;context.fillStyle='#b5b3ae';context.fillText('感谢相遇',96,814);
@@ -92,7 +92,7 @@ export function createKeepsake(options: {
       const blob=await makeCard(selected.person,portrait);
       if(current!==generation || !dialog.open)return;
       imageUrl=URL.createObjectURL(blob);
-      picture.alt=`岳增五（@ZengwuY）与 ${selected.person.displayName}（@${selected.person.handle}）的纪念合影`;
+      picture.alt=`${selected.person.displayName}（@${selected.person.handle}）与岳增五（@ZengwuY）的纪念合影`;
       picture.src=imageUrl;
       await picture.decode();
       if(current!==generation || !dialog.open)return;
@@ -108,7 +108,7 @@ export function createKeepsake(options: {
     const selected=options.selection();
     if(!selected || dialog.open)return;
     person=selected;options.pause();
-    description.textContent=`岳增五 × ${selected.person.displayName}`;
+    description.textContent=`${selected.person.displayName} × 岳增五`;
     dialog.showModal();void generate();
   });
   retry.addEventListener('click',()=>void generate());
