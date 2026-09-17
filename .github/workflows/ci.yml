@@ -36,5 +36,8 @@ jobs:
       - name: Type-check
         run: pnpm typecheck
 
+      - name: Test follower gallery
+        run: pnpm test:first-thousand
+
       - name: Build
         run: pnpm build

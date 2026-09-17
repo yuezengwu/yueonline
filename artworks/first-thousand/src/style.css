@@ -33,14 +33,29 @@ body[data-ready="true"] #scene { opacity: 1; }
 #bubble-name { display: block; padding-right: 20px; font-size: 14px; font-weight: 500; line-height: 1.5; overflow-wrap: anywhere; }
 #bubble-handle { display: block; margin-top: 3px; font-size: 12px; color: #999; }
 #bubble-bio { margin: 15px 0; font-size: 13px; line-height: 1.75; color: #ccc; white-space: pre-wrap; overflow-wrap: anywhere; }
+#bubble-avatar-note { margin: 12px 0; font-size: 11px; line-height: 1.65; color: #999; }
 #bubble-link { display: inline-block; color: #aaa; font-size: 12px; text-decoration: none; padding-block: 4px; }
 #bubble-link:hover { color: #eee; }
 #bubble-link:focus-visible { outline: 2px solid #ddd; outline-offset: 4px; }
+.bubble-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-top: 16px; padding-top: 8px; border-top: 1px solid #ffffff16; }
+#bubble-photo { min-width: auto; font-size: 12px; color: #ccc; padding: 4px 0; }
+#bubble-photo:hover { color: #eee; }
+#photo-dialog { width: min(760px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 20px; overflow: auto; overscroll-behavior: contain; color: var(--text); background: #1c1c1c; border: 1px solid #ffffff24; border-radius: 20px; box-shadow: 0 20px 100px #0008; }
+#photo-dialog::backdrop { background: #101010d9; backdrop-filter: blur(10px); }
+.photo-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+#photo-title { font-size: 16px; font-weight: 400; margin: 3px 0 8px; }
+#photo-description { margin: 0; color: #999; font-size: 12px; line-height: 1.65; overflow-wrap: anywhere; }
+#photo-close { flex: 0 0 44px; margin: -9px -10px 0 0; font-size: 24px; color: #aaa; border-radius: 50%; }
+#photo-preview { display: block; width: 100%; height: auto; border-radius: 4px; }
+.photo-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin-top: 16px; }
+#photo-status { flex: 1 1 200px; margin: 0; color: #999; font-size: 12px; line-height: 1.65; }
+#photo-download, #photo-retry { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px; border: 1px solid #ffffff35; border-radius: 24px; font-size: 13px; color: #ddd; text-decoration: none; }
+#photo-download:hover, #photo-retry:hover { background: #ffffff09; }
+#photo-download:focus-visible { outline: 2px solid #ddd; outline-offset: 4px; }
 #dedication { position: absolute; pointer-events: none; left: 50%; top: 50%; width: 1080px; height: 600px; transform-origin: center; will-change: transform; text-align: center; }
 .dedication-content { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .core-light { position: absolute; inset: -80px -100px; border-radius: 50%; background: radial-gradient(ellipse at 40% 35%, #efebe017, #ded8c106 36%, transparent 67%); filter: blur(28px); }
 .core-light::before { content: ""; position: absolute; width: 520px; height: 90px; top: 60px; left: 15px; transform: rotate(-29deg); background: #ffffff05; filter: blur(30px); }
-.eyebrow { font-size: 16px; letter-spacing: .32em; color: #a09e98; margin: 0 0 18px; }
 .milestone { display: flex; align-items: center; gap: 34px; }
 .milestone > span { font-size: 182px; font-weight: 400; letter-spacing: -.065em; line-height: 1; color: #f1efea; text-shadow: 0 4px 35px #fff1; font-variant-numeric: lining-nums; }
 .milestone-label { display: flex; align-items: baseline; gap: 28px; }
@@ -49,7 +64,7 @@ body[data-ready="true"] #scene { opacity: 1; }
 h1 { max-width: 940px; font-size: 40px; line-height: 1.85; font-weight: 400; letter-spacing: .04em; margin: 34px 0 14px; text-wrap: balance; }
 .signature { font-size: 16px; letter-spacing: .13em; color: #73736e; margin: 24px 0 0; }
 .signature span { padding: 0 12px; }
-#dedication[data-compact="true"] .eyebrow, #dedication[data-compact="true"] h1, #dedication[data-compact="true"] .signature { display: none; }
+#dedication[data-compact="true"] h1, #dedication[data-compact="true"] .signature { display: none; }
 #dedication[data-compact="true"] .milestone { flex-direction: column; gap: 28px; }
 #dedication[data-compact="true"] .milestone img { width: 210px; height: 210px; }
 #dedication[data-compact="true"] .milestone > span { font-size: 210px; }
@@ -57,6 +72,7 @@ h1 { max-width: 940px; font-size: 40px; line-height: 1.85; font-weight: 400; let
 #loading, #error { position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%); margin: 0; padding: 24px; background: #161616; z-index: 4; font-size: 16px; text-align: center; }
 [hidden] { display: none !important; }
 button { font: inherit; color: inherit; border: 0; background: transparent; cursor: pointer; min-width: 44px; min-height: 44px; touch-action: manipulation; }
+button:disabled { opacity: .45; cursor: default; }
 #retry { text-decoration: underline; }
 .view-controls { position: fixed; z-index: 3; bottom: max(18px, env(safe-area-inset-bottom)); right: max(20px, env(safe-area-inset-right)); display: flex; align-items: center; color: #aaa; border: 1px solid #ffffff16; background: #171717bc; backdrop-filter: blur(16px); border-radius: 40px; }
 .view-controls button { font-size: 20px; transition: color 180ms; }
@@ -75,7 +91,6 @@ noscript { position: fixed; inset: 30%; font-size: 16px; }
   #search-input::placeholder { font-size: 12px; }
   .search-icon { margin-left: 12px; }
   #dedication { width: 660px; height: 980px; }
-  .eyebrow { font-size: 20px; margin-bottom: 32px; }
   .milestone { gap: 26px; }
   .milestone img { width: 120px; height: 120px; }
   .milestone > span { font-size: 156px; }

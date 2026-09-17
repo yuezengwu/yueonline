@@ -4,18 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#161616" />
-    <meta name="description" content="为了感谢我人生中的前1000粉丝，我要让你们在互联网上留下存档！" />
-    <title>1000 Followers — 岳增五</title>
+    <meta name="description" content="为了感谢我人生中的前2000粉丝，我要让你们在互联网上留下存档！最初的一千留在中心。" />
+    <title>2000 Followers — 岳增五</title>
   </head>
   <body>
-    <main id="wall" aria-label="一千粉丝头像合影">
+    <main id="wall" aria-label="两千粉丝头像合影，最初的一千留在中心">
       <canvas id="scene" tabindex="0" aria-label="圆形头像合影。向任意方向拖动或滚动，双指或 Control 加滚轮缩放。单击选中，双击打开 X 主页。方向键移动，加减键缩放，0 查看全景，Escape 回到中心。"></canvas>
-      <section id="dedication" aria-label="纪念人生第一次一千粉丝">
+      <section id="dedication" aria-label="纪念两千粉丝，最初的一千留在中心">
         <div class="core-light" aria-hidden="true"></div>
         <div class="dedication-content">
-          <p class="eyebrow">THE FIRST THOUSAND</p>
-          <div class="milestone"><img src="%BASE_URL%yue.jpg" width="144" height="144" alt="岳增五的头像" /><span class="milestone-label">1000 <span class="followers">Followers</span></span></div>
-          <h1>为了感谢我人生中的前1000粉丝，我要让你们在互联网上留下存档！</h1>
+          <div class="milestone"><img src="%BASE_URL%yue.jpg" width="144" height="144" alt="岳增五的头像" /><span class="milestone-label">2000 <span class="followers">Followers</span></span></div>
+          <h1>为了感谢我人生中的前2000粉丝，我要让你们在互联网上留下存档！</h1>
           <p class="signature">岳增五 <span>·</span> 2026.09</p>
         </div>
       </section>
@@ -39,12 +38,28 @@
       <strong id="bubble-name"></strong>
       <span id="bubble-handle"></span>
       <p id="bubble-bio"></p>
-      <a id="bubble-link" target="_blank" rel="noopener noreferrer">在 X 查看 ↗</a>
+      <p id="bubble-avatar-note" hidden>头像暂时无法获取，使用默认图显示。</p>
+      <div class="bubble-actions">
+        <button id="bubble-photo" type="button">与我合影 ↗</button>
+        <a id="bubble-link" target="_blank" rel="noopener noreferrer">在 X 查看 ↗</a>
+      </div>
     </aside>
+    <dialog id="photo-dialog" aria-labelledby="photo-title" aria-describedby="photo-description">
+      <div class="photo-heading">
+        <div><h2 id="photo-title">与我合影</h2><p id="photo-description"></p></div>
+        <button id="photo-close" type="button" aria-label="关闭合影" autofocus>×</button>
+      </div>
+      <img id="photo-preview" width="1200" height="900" alt="" hidden />
+      <div class="photo-footer">
+        <p id="photo-status" role="status" aria-live="polite"></p>
+        <a id="photo-download" download hidden>保存合影</a>
+        <button id="photo-retry" type="button" hidden>重新生成</button>
+      </div>
+    </dialog>
     <nav class="view-controls" aria-label="合影视角">
-      <button id="zoom-out" type="button" aria-label="缩小">−</button>
-      <button id="overview" type="button">看见所有人</button>
-      <button id="zoom-in" type="button" aria-label="放大">+</button>
+      <button id="zoom-out" type="button" aria-label="缩小" disabled>−</button>
+      <button id="overview" type="button" disabled>看见所有人</button>
+      <button id="zoom-in" type="button" aria-label="放大" disabled>+</button>
     </nav>
     <p class="gesture-hint"><span id="collection-count"></span>拖动探索 · 双击相遇</p>
     <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
