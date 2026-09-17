@@ -17,6 +17,18 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: "/visuals/first-thousand/portraits-:hash([a-f0-9]{16}).webp",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+      {
+        source: "/visuals/first-thousand/assets/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+      {
+        source: "/visuals/first-thousand/people.json",
+        headers: [{ key: "Cache-Control", value: "public, max-age=0, must-revalidate" }],
+      },
+      {
         source: "/visuals/gargantua/assets/:path*",
         headers: [
           {

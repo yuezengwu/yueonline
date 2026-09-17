@@ -64,8 +64,8 @@ AI builder
 ## Visuals
 
 ```
-- title: 1000 Followers
-  summary: A portrait of the people who were here.
+- title: 2000 Followers
+  summary: My followers.
   href: /visuals/first-thousand
   external: false
 - title: Gargantua

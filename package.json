@@ -29,7 +29,9 @@
     "typecheck": "tsc --noEmit",
     "typecheck:visuals": "tsc --noEmit --project artworks/gargantua/tsconfig.json && tsc --noEmit --project artworks/first-thousand/tsconfig.json",
     "test:visuals": "playwright test --config artworks/gargantua/playwright.config.ts",
-    "check": "pnpm lint && pnpm typecheck && pnpm build"
+    "test:first-thousand": "node --test artworks/first-thousand/tests/*.test.mjs",
+    "test:first-thousand:prepare": "python3 artworks/first-thousand/tests/prepare.test.py",
+    "check": "pnpm lint && pnpm typecheck && pnpm test:first-thousand && pnpm build"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
