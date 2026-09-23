@@ -22,16 +22,20 @@
     "build": "next build",
     "build:visuals": "pnpm typecheck:visuals && vite build --config artworks/gargantua/vite.config.mts --base /visuals/gargantua/ && pnpm build:first-thousand",
     "dev:first-thousand": "vite --config artworks/first-thousand/vite.config.mts",
-    "build:first-thousand": "node artworks/first-thousand/tools/check-collection.mjs && vite build --config artworks/first-thousand/vite.config.mts --base /visuals/first-thousand/",
+    "build:first-thousand": "pnpm typecheck:first-thousand && pnpm check:first-thousand:assets && vite build --config artworks/first-thousand/vite.config.mts && pnpm verify:first-thousand:release",
     "start": "next start",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "typecheck": "tsc --noEmit",
-    "typecheck:visuals": "tsc --noEmit --project artworks/gargantua/tsconfig.json && tsc --noEmit --project artworks/first-thousand/tsconfig.json",
+    "typecheck:visuals": "tsc --noEmit --project artworks/gargantua/tsconfig.json && pnpm typecheck:first-thousand",
     "test:visuals": "playwright test --config artworks/gargantua/playwright.config.ts",
     "test:first-thousand": "node --test artworks/first-thousand/tests/*.test.mjs",
     "test:first-thousand:prepare": "python3 artworks/first-thousand/tests/prepare.test.py",
-    "check": "pnpm lint && pnpm typecheck && pnpm test:first-thousand && pnpm build"
+    "check": "pnpm lint && pnpm typecheck && pnpm test:first-thousand && pnpm build",
+    "check:first-thousand:assets": "node artworks/first-thousand/tools/check-collection.mjs",
+    "verify:first-thousand:release": "node artworks/first-thousand/tools/verify-release.mjs",
+    "typecheck:first-thousand": "tsc --noEmit --project artworks/first-thousand/tsconfig.json",
+    "test:first-thousand:delivery": "python3 artworks/first-thousand/tests/prepare-delivery.test.py"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -60,5 +64,6 @@
     "three": "0.185.1",
     "typescript": "^5",
     "vite": "8.2.0"
-  }
+  },
+  "type": "module"
 }

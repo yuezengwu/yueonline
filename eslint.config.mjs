@@ -5,6 +5,18 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  {
+    files: ["artworks/first-thousand/src/**/*.js"],
+    languageOptions: {
+      globals: Object.fromEntries([
+        "window", "document", "matchMedia", "requestAnimationFrame", "cancelAnimationFrame",
+        "devicePixelRatio", "innerWidth", "innerHeight", "performance", "history", "location",
+        "crypto", "Image", "Worker", "URL", "Blob", "fetch", "AbortSignal", "AbortController",
+        "navigator", "self", "postMessage",
+      ].map(name => [name, "readonly"])),
+    },
+    rules: { "no-undef": "error", "@typescript-eslint/no-unused-vars": "error" },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
@@ -13,7 +25,10 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     // Standalone artwork source has its own compiler and test boundary.
-    "artworks/**",
+    "artworks/gargantua/**",
+    "artworks/first-thousand/public/**",
+    "artworks/first-thousand/tools/**",
+    "artworks/first-thousand/tests/**",
     // Versioned production output from standalone visual projects.
     "public/visuals/**",
   ]),

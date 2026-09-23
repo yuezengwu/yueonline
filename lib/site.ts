@@ -61,7 +61,7 @@ export const site = {
   ] as Entry[],
   visuals: [
     {
-      title: "2000 Followers",
+      title: "3000 Followers",
       summary: "My followers.",
       href: "/visuals/first-thousand",
       external: false,

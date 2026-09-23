@@ -1,69 +1,36 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#161616" />
-    <meta name="description" content="为了感谢我人生中的前2000粉丝，我要让你们在互联网上留下存档！最初的一千留在中心。" />
-    <title>2000 Followers — 岳增五</title>
-  </head>
-  <body>
-    <main id="wall" aria-label="两千粉丝头像合影，最初的一千留在中心">
-      <canvas id="scene" tabindex="0" aria-label="圆形头像合影。向任意方向拖动或滚动，双指或 Control 加滚轮缩放。单击选中，双击打开 X 主页。方向键移动，加减键缩放，0 查看全景，Escape 回到中心。"></canvas>
-      <section id="dedication" aria-label="纪念两千粉丝，最初的一千留在中心">
-        <div class="core-light" aria-hidden="true"></div>
-        <div class="dedication-content">
-          <div class="milestone"><img src="%BASE_URL%yue.jpg" width="144" height="144" alt="岳增五的头像" /><span class="milestone-label">2000 <span class="followers">Followers</span></span></div>
-          <h1>为了感谢我人生中的前2000粉丝，我要让你们在互联网上留下存档！</h1>
-          <p class="signature">岳增五 <span>·</span> 2026.09</p>
-        </div>
-      </section>
-      <p id="loading" role="status">正在集合。</p>
-      <section id="error" hidden role="alert"><p>照片墙暂时无法载入。</p><button id="retry" type="button">重新载入</button></section>
-    </main>
-    <a class="back site-return" href="/">← 岳增五</a>
-    <form id="people-search" role="search" aria-label="在合影中找到自己" autocomplete="off">
-      <div class="search-field">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 4.5 4.5" /></svg>
-        <input id="search-input" type="search" role="combobox" aria-label="搜索 X 用户名或昵称" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false" aria-describedby="search-status" placeholder="在这里找到自己" autocapitalize="none" spellcheck="false" maxlength="100" disabled />
-        <button id="search-clear" type="button" aria-label="清空搜索" hidden>×</button>
-      </div>
-      <div id="search-panel" hidden>
-        <p id="search-status" role="status" aria-live="polite"></p>
-        <div id="search-results" role="listbox" aria-label="匹配的朋友"></div>
-      </div>
-    </form>
-    <aside id="profile-bubble" aria-label="选中朋友的简介" hidden>
-      <button id="bubble-close" type="button" aria-label="关闭简介">×</button>
-      <strong id="bubble-name"></strong>
-      <span id="bubble-handle"></span>
-      <p id="bubble-bio"></p>
-      <p id="bubble-avatar-note" hidden>头像暂时无法获取，使用默认图显示。</p>
-      <div class="bubble-actions">
-        <button id="bubble-photo" type="button">与我合影 ↗</button>
-        <a id="bubble-link" target="_blank" rel="noopener noreferrer">在 X 查看 ↗</a>
-      </div>
-    </aside>
-    <dialog id="photo-dialog" aria-labelledby="photo-title" aria-describedby="photo-description">
-      <div class="photo-heading">
-        <div><h2 id="photo-title">与我合影</h2><p id="photo-description"></p></div>
-        <button id="photo-close" type="button" aria-label="关闭合影" autofocus>×</button>
-      </div>
-      <img id="photo-preview" width="1200" height="900" alt="" hidden />
-      <div class="photo-footer">
-        <p id="photo-status" role="status" aria-live="polite"></p>
-        <a id="photo-download" download hidden>保存合影</a>
-        <button id="photo-retry" type="button" hidden>重新生成</button>
-      </div>
-    </dialog>
-    <nav class="view-controls" aria-label="合影视角">
-      <button id="zoom-out" type="button" aria-label="缩小" disabled>−</button>
-      <button id="overview" type="button" disabled>看见所有人</button>
-      <button id="zoom-in" type="button" aria-label="放大" disabled>+</button>
-    </nav>
-    <p class="gesture-hint"><span id="collection-count"></span>拖动探索 · 双击相遇</p>
-    <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
-    <noscript>这张可交互合影需要 JavaScript。<a href="/">返回主页</a></noscript>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
-</html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#000000"><title>3000 Followers · 岳增五</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./src/style.css"></head>
+<body data-view="space">
+<main id="universe"><canvas id="scene" tabindex="0" aria-label="头像空间：拖动浏览，滚轮或捏合缩放，搜索定位朋友"></canvas><div id="selection-marker" hidden></div><div id="hover-label" hidden></div></main>
+<header>
+  <a class="back" href="/" aria-label="返回首页">← 返回</a>
+  <div class="mode-switch" role="group" aria-label="浏览模式"><button id="mode-space" aria-pressed="true" aria-controls="universe" disabled>空间</button><button id="mode-wall" aria-pressed="false" aria-controls="wall-layer" disabled>照片墙</button></div>
+  <div class="search-wrap"><label for="search" class="sr-only">搜索用户名或昵称</label><input id="search" type="search" disabled maxlength="100" autocomplete="off" spellcheck="false" placeholder="搜索朋友" aria-controls="result-list"><button id="search-clear" aria-label="清空搜索" hidden>×</button><div id="results" hidden><p id="result-count" role="status"></p><div id="result-list" role="listbox" aria-label="匹配的朋友"></div></div></div>
+</header>
+<div id="loading" role="status">正在构建空间…</div>
+<section id="wall-layer" hidden aria-label="原版照片墙">
+  <section id="dedication" aria-label="纪念三千粉丝，最初的一千留在中心">
+    <div class="core-light" aria-hidden="true"></div>
+    <div class="dedication-content">
+      <div class="milestone"><button id="wall-author" aria-pressed="false" aria-label="查看岳增五的个人介绍"><img src="%BASE_URL%assets/yue.jpg" width="144" height="144" alt="岳增五的头像"></button><span class="milestone-label">3000 <span class="followers">Followers</span></span></div>
+      <h1>为了感谢陪我走过三千粉丝的你们，我要让你们在互联网上留下存档！</h1>
+      <p class="signature">岳增五 <span>·</span> 2026.09</p>
+    </div>
+  </section>
+</section>
+<section id="error" hidden role="alert"><p id="error-message">画面暂时无法载入。</p><button id="retry">重新载入</button></section>
+<aside id="profile" hidden aria-label="选中的朋友">
+  <button id="close-profile" class="icon" aria-label="关闭人物介绍">×</button>
+  <h2 id="person-name"></h2><p id="person-handle"></p><p id="person-bio"></p><p id="avatar-note" hidden>头像暂不可用，以默认图显示。</p>
+  <div class="profile-actions"><button id="make-photo">与我合影</button><a id="person-link" target="_blank" rel="noopener noreferrer">在 X 查看</a></div>
+</aside>
+<footer id="wall-controls" hidden><button id="wall-view-toggle">看见所有人</button></footer>
+<footer id="space-controls"><button id="view-toggle" aria-label="进入空间">进入空间</button></footer>
+<dialog id="photo-dialog" aria-label="合影预览">
+  <button id="photo-close" class="icon" aria-label="关闭合影">×</button>
+  <img id="photo-preview" alt="" hidden><p id="photo-status" role="status" hidden></p>
+  <div class="photo-actions"><button id="photo-retry" hidden>重新生成</button><a id="photo-download" hidden>保存合影</a></div>
+</dialog>
+<div id="announcement" class="sr-only" role="status"></div><script type="module" src="./src/main.js"></script>
+</body></html>

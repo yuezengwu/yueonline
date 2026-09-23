@@ -36,8 +36,21 @@ jobs:
       - name: Type-check
         run: pnpm typecheck
 
+      - name: Check follower gallery types
+        run: pnpm typecheck:visuals
+
       - name: Test follower gallery
         run: pnpm test:first-thousand
+
+      - name: Set up Python for offline delivery tests
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Test portrait delivery pipeline
+        run: |
+          python3 -m pip install Pillow==12.2.0
+          pnpm test:first-thousand:delivery
 
       - name: Build
         run: pnpm build

@@ -1,4 +1,13 @@
 {
   "extends": "../gargantua/tsconfig.json",
-  "include": ["src"]
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  },
+  "include": [
+    "src/**/*.js"
+  ]
 }
