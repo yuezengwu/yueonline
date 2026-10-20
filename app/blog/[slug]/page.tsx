@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllSlugs, getPost } from "@/lib/blog";
+import "katex/dist/katex.min.css";
 
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
@@ -13,10 +14,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) return {};
+  const image = post.html.match(/<img\s[^>]*src="([^"]+)"/)?.[1];
   return {
     title: post.title,
     description: post.summary,
-    openGraph: { type: "article", title: post.title, description: post.summary },
+    alternates: { canonical: `/blog/${slug}` },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.summary,
+      url: `/blog/${slug}`,
+      publishedTime: post.date,
+      ...(image ? { images: [{ url: image, alt: post.title }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.summary,
+      ...(image ? { images: [image] } : {}),
+    },
   };
 }
 

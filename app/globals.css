@@ -393,6 +393,20 @@ a.entry__title:hover {
 .prose p {
   text-wrap: pretty;
 }
+.prose img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.prose a:has(> img) {
+  display: block;
+}
+.prose .katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.5em;
+}
 .prose a {
   text-decoration: underline;
   text-decoration-color: var(--underline);
