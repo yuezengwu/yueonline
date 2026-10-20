@@ -61,10 +61,11 @@ $$
 以 32 位单精度浮点数 FP32（每步按最近偶数舍入）计算 $1 + \varepsilon + \varepsilon$ 为例，取 $\varepsilon \approx 4 \times 10^{-8}$（十进制简写 `0.00000004`）。FP32 在 $1$ 上方的相邻可表示数间距为 $\delta = 2^{-23} \approx 1.19 \times 10^{-7}$，下一刻度为 `1.0000001192092896`，半刻度舍入阈值为 $2^{-24} \approx 5.96 \times 10^{-8}$：
 
 $$
-\begin{aligned}
-(1 + \varepsilon) + \varepsilon &\longrightarrow 1 + \varepsilon \longrightarrow 1 \\
-1 + (\varepsilon + \varepsilon) &\longrightarrow 1 + 8 \times 10^{-8} \longrightarrow 1.0000001192092896
-\end{aligned}
+\begin{gathered}
+(1 + \varepsilon) + \varepsilon \longrightarrow 1 + \varepsilon \longrightarrow 1 \\[0.5em]
+1 + (\varepsilon + \varepsilon) \longrightarrow 1 + 8 \times 10^{-8} \\
+\longrightarrow 1.0000001192092896
+\end{gathered}
 $$
 
 左结合中两个 $\varepsilon$ 先后单独加到 $1$ 上，均未超过半刻度阈值 $2^{-24}$，舍入后仍为 $1$。右结合先相加得 $8 \times 10^{-8}$，再加 $1$ 时超过阈值并进位。前向计算的矩阵乘法与向量内积需归约累加大量乘积项，归约顺序变化便可能产生此类舍入差异。该算术示例仅演示舍入规则，非大模型实测，也不代表实际部署均用 FP32。输入、求和顺序、精度与舍入规则固定时，浮点运算按固定规则执行，不含随机抽样；改变归约顺序也只是可能改变舍入结果，并非每次重排都会算出不同数值。
